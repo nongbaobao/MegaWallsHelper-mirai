@@ -1,0 +1,5 @@
+player - stats - walls3 - final_kills_standard  (终杀)
+player - stats - walls3 - final_deaths_standard  (终死)
+player - stats - walls3 - wins_standard  (胜场)
+player - stats - walls3 - losses_standard  (胜场)
+player - newPackageRank (Rank)
