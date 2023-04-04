@@ -63,18 +63,19 @@ object MegaWallsUtil {
 
             val finalKills = wall3.getInt("final_kills_standard")
             val finalDeaths = wall3.getInt("final_deaths_standard")
+            val finalAssists = wall3.getInt("final_assists_standard")
             val wins = wall3.getInt("wins_standard")
             val losses = wall3.getInt("losses_standard")
 
-            val playerData = PlayerData(LocalDate.now().toString(), name, finalKills, finalDeaths, wins, losses)
+            val playerData = PlayerData(LocalDate.now().toString(), name, finalKills, finalDeaths, finalAssists, wins, losses)
             return if (MongoUtil.hasDataToday(name)) {
                 MongoUtil.updateData(playerData)
                 MongoUtil.getDataByDate(name, LocalDate.now().toString())
-            } else if (!MongoUtil.isFirstTime(name)) {
-                PlayerData(LocalDate.now().toString(), name, finalKills, finalDeaths, wins, losses)
+            } else if (MongoUtil.isFirstTime(name)) {
+                PlayerData(LocalDate.now().toString(), name, finalKills, finalDeaths, finalAssists, wins, losses)
             } else {
                 MongoUtil.addDataByFirst(playerData)
-                PlayerData(LocalDate.now().toString(), name, finalKills, finalDeaths, wins, losses)
+                PlayerData(LocalDate.now().toString(), name, finalKills, finalDeaths, finalAssists, wins, losses)
             }
         }
 

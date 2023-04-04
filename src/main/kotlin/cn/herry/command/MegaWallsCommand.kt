@@ -80,8 +80,10 @@ object MegaWallsCommand : CompositeCommand(
             val playerData = MongoUtil.getDataByDate(name, LocalDate.now().toString())
             if (MongoUtil.isFirstTime(name)) {
                 if (!MongoUtil.hasDaily(name)) {
-                        subject.sendMessage("=====mw小帮手======\n".toPlainText() +
-                            "您可能是第一次使用！\n请等待重置时间后再获取您的daily/monthly/yearly数据!")
+                    subject.sendMessage(
+                        "=====mw小帮手======\n".toPlainText() +
+                                "您可能是第一次使用！\n请等待重置时间后再获取您的daily/monthly/yearly数据!"
+                    )
                 }
 
                 if (playerData != null) {
@@ -95,6 +97,7 @@ object MegaWallsCommand : CompositeCommand(
                                 // base data
                                 val finalKills = playerData.finalKills - yesterdayData!!.finalKills
                                 val finalDeaths = playerData.finalDeaths - yesterdayData.finalDeaths
+                                val finalAssists = playerData.finalAssists - yesterdayData.finalAssists
                                 val wins = playerData.wins - yesterdayData.wins
                                 val losses = playerData.losses - yesterdayData.losses
 
@@ -115,6 +118,15 @@ object MegaWallsCommand : CompositeCommand(
                                     getFloatNoMoreThan3Digits((wins / losses).toDouble())
                                 }
 
+                                // fkfa/fd
+                                val fkfafd: String = if ((finalKills + finalAssists) == 0 && finalDeaths == 0) {
+                                    "0"
+                                } else if ((finalKills + finalAssists) == 0 && finalDeaths == 0) {
+                                    (finalKills + finalAssists).toString()
+                                } else {
+                                    getFloatNoMoreThan3Digits(((finalKills + finalAssists) / finalDeaths).toDouble())
+                                }
+
                                 val msg = "=====mw小帮手=====\n".toPlainText() +
                                         "玩家: $name\n".toPlainText() +
                                         "| 日期: ${
@@ -122,6 +134,8 @@ object MegaWallsCommand : CompositeCommand(
                                         } -> ${LocalDate.now()}\n".toPlainText() +
                                         "| 终杀/终死: $finalKills / $finalDeaths\n".toPlainText() +
                                         "| FKDR: $fkd\n".toPlainText() +
+                                        "| 终辅: $finalAssists".toPlainText() +
+                                        "| FAFA/FD: $fkfafd".toPlainText() +
                                         "| 胜场/败场: $wins / $losses\n".toPlainText() +
                                         "| W/L: $wl".toPlainText()
 
@@ -137,14 +151,15 @@ object MegaWallsCommand : CompositeCommand(
                         // 每周
                         "weekly" -> {
                             if (MongoUtil.hasWeekly(name)) {
-                                val yesterdayData =
+                                val weekAgoData =
                                     MongoUtil.getDataByDate(name, LocalDate.now().minusWeeks(1).toString())
 
                                 // base data
-                                val finalKills = playerData.finalKills - yesterdayData!!.finalKills
-                                val finalDeaths = playerData.finalDeaths - yesterdayData.finalDeaths
-                                val wins = playerData.wins - yesterdayData.wins
-                                val losses = playerData.losses - yesterdayData.losses
+                                val finalKills = playerData.finalKills - weekAgoData!!.finalKills
+                                val finalDeaths = playerData.finalDeaths - weekAgoData.finalDeaths
+                                val finalAssists = playerData.finalAssists - weekAgoData.finalAssists
+                                val wins = playerData.wins - weekAgoData.wins
+                                val losses = playerData.losses - weekAgoData.losses
 
                                 // fkd / wl
                                 val fkd: String = if (finalKills == 0 && finalDeaths == 0) {
@@ -163,13 +178,24 @@ object MegaWallsCommand : CompositeCommand(
                                     getFloatNoMoreThan3Digits((wins / losses).toDouble())
                                 }
 
+                                // fkfa/fd
+                                val fkfafd: String = if ((finalKills + finalAssists) == 0 && finalDeaths == 0) {
+                                    "0"
+                                } else if ((finalKills + finalAssists) == 0 && finalDeaths == 0) {
+                                    (finalKills + finalAssists).toString()
+                                } else {
+                                    getFloatNoMoreThan3Digits(((finalKills + finalAssists) / finalDeaths).toDouble())
+                                }
+
                                 val msg = "=====mw小帮手=====\n".toPlainText() +
                                         "玩家: $name\n".toPlainText() +
                                         "| 日期: ${
-                                            LocalDate.now().minusWeeks(1)
+                                            LocalDate.now().minusDays(1)
                                         } -> ${LocalDate.now()}\n".toPlainText() +
                                         "| 终杀/终死: $finalKills / $finalDeaths\n".toPlainText() +
                                         "| FKDR: $fkd\n".toPlainText() +
+                                        "| 终辅: $finalAssists".toPlainText() +
+                                        "| FAFA/FD: $fkfafd".toPlainText() +
                                         "| 胜场/败场: $wins / $losses\n".toPlainText() +
                                         "| W/L: $wl".toPlainText()
 
@@ -191,6 +217,7 @@ object MegaWallsCommand : CompositeCommand(
                                 // base data
                                 val finalKills = playerData.finalKills - monthAgoData!!.finalKills
                                 val finalDeaths = playerData.finalDeaths - monthAgoData.finalDeaths
+                                val finalAssists = playerData.finalAssists - monthAgoData.finalAssists
                                 val wins = playerData.wins - monthAgoData.wins
                                 val losses = playerData.losses - monthAgoData.losses
 
@@ -211,14 +238,25 @@ object MegaWallsCommand : CompositeCommand(
                                     getFloatNoMoreThan3Digits((wins / losses).toDouble())
                                 }
 
+                                // fkfa/fd
+                                val fkfafd: String = if ((finalKills + finalAssists) == 0 && finalDeaths == 0) {
+                                    "0"
+                                } else if ((finalKills + finalAssists) == 0 && finalDeaths == 0) {
+                                    (finalKills + finalAssists).toString()
+                                } else {
+                                    getFloatNoMoreThan3Digits(((finalKills + finalAssists) / finalDeaths).toDouble())
+                                }
+
                                 val msg = "=====mw小帮手=====\n".toPlainText() +
                                         "玩家: $name\n".toPlainText() +
                                         "| 日期: ${
-                                            LocalDate.now().minusMonths(1)
+                                            LocalDate.now().minusDays(1)
                                         } -> ${LocalDate.now()}\n".toPlainText() +
                                         "| 终杀/终死: $finalKills / $finalDeaths\n".toPlainText() +
                                         "| FKDR: $fkd\n".toPlainText() +
-                                        "| 胜场/败场: $wins / $losses".toPlainText() +
+                                        "| 终辅: $finalAssists".toPlainText() +
+                                        "| FAFA/FD: $fkfafd".toPlainText() +
+                                        "| 胜场/败场: $wins / $losses\n".toPlainText() +
                                         "| W/L: $wl".toPlainText()
 
                                 subject.sendMessage(msg)
@@ -231,57 +269,11 @@ object MegaWallsCommand : CompositeCommand(
                             }
                         }
 
-                        // 每年
-                        "yearly" -> {
-                            if (MongoUtil.hasYearly(name)) {
-                                val yearAgoDate =
-                                    MongoUtil.getDataByDate(name, LocalDate.now().minusYears(1).toString())
-
-                                // base data
-                                val finalKills = playerData.finalKills - yearAgoDate!!.finalKills
-                                val finalDeaths = playerData.finalDeaths - yearAgoDate.finalDeaths
-                                val wins = playerData.wins - yearAgoDate.wins
-                                val losses = playerData.losses - yearAgoDate.losses
-
-                                // fkd / wl
-                                val fkd: String = if (finalKills == 0 && finalDeaths == 0) {
-                                    "0"
-                                } else if (finalKills != 0 && finalDeaths == 0) {
-                                    finalKills.toString()
-                                } else {
-                                    getFloatNoMoreThan3Digits((finalKills / finalDeaths).toDouble())
-                                }
-
-                                val wl: String = if ((wins == 0 && losses == 0)) {
-                                    "0"
-                                } else if (wins != 0 && losses == 0) {
-                                    wins.toString()
-                                } else {
-                                    getFloatNoMoreThan3Digits((wins / losses).toDouble())
-                                }
-
-                                val msg = "=====mw小帮手=====\n".toPlainText() +
-                                        "玩家: $name\n".toPlainText() +
-                                        "| 日期: ${
-                                            LocalDate.now().minusDays(1)
-                                        } -> ${LocalDate.now()}\n".toPlainText() +
-                                        "| 终杀/终死: $finalKills / $finalDeaths\n".toPlainText() +
-                                        "| FKDR: $fkd\n".toPlainText() +
-                                        "| 胜场/败场: $wins / $losses".toPlainText() +
-                                        "| W/L: $wl".toPlainText()
-
-                                subject.sendMessage(msg)
-
-                            } else {
-                                subject.sendMessage(
-                                    "=====mw小帮手=====\n".toPlainText() +
-                                            "未检测到您上一年的数据;w; \n如果为第一次使用，请等待一年后再获取".toPlainText()
-                                )
-                            }
-                        }
                         else -> {
-                            subject.sendMessage("=====mw小帮手=====\n".toPlainText() +
-                                    "错误的参数！最后一项只能为daily/weekly/monthly/yearly".toPlainText())
+                            subject.sendMessage(
+                                "=====mw小帮手=====\n".toPlainText() +
+                                        "错误的参数！最后一项只能为daily/weekly/monthly/yearly".toPlainText()
+                            )
                         }
                     }
                 }
@@ -305,6 +297,5 @@ object MegaWallsCommand : CompositeCommand(
         format.roundingMode = RoundingMode.FLOOR
         return format.format(number)
     }
-
 
 }
