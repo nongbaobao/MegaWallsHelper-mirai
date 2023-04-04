@@ -272,7 +272,7 @@ object MegaWallsCommand : CompositeCommand(
                         else -> {
                             subject.sendMessage(
                                 "=====mw小帮手=====\n".toPlainText() +
-                                        "错误的参数！最后一项只能为daily/weekly/monthly/yearly".toPlainText()
+                                        "错误的参数！最后一项只能为daily/weekly/monthly".toPlainText()
                             )
                         }
                     }
