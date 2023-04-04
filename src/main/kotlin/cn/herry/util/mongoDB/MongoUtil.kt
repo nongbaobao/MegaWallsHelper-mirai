@@ -7,7 +7,7 @@ import java.time.LocalDate
 
 object MongoUtil {
 
-    val client: MongoClient = MongoClients.create("mongodb://username:password@127.0.0.1:23333/")
+    val client: MongoClient = MongoClients.create("mongodb://username:pwd@127.0.0.1:23333/")
     private val database = client.getDatabase("hypixel")
     private val usersCollection = client.getDatabase("hypixel").getCollection("users")
 
@@ -64,7 +64,7 @@ object MongoUtil {
                 )
         }
 
-        return MegaWallsUtil.getPlayerDataAndSave(name)
+        return null
     }
 
     fun hasDaily(name: String): Boolean {

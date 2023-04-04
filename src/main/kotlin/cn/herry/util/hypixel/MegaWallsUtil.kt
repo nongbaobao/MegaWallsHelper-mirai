@@ -28,8 +28,13 @@ object MegaWallsUtil {
                 return if (WALLS3.getJSONObject("modes") != null) {
                     val modes = WALLS3.getJSONObject("modes")
 
-                    standard = modes.getInt("standard")
-                    faceoff = modes.getInt("face_off")
+                    if (modes.getInt("standard") != null) {
+                        standard = modes.getInt("standard")
+                    }
+
+                    if (modes.getInt("face_off") != null) {
+                        faceoff = modes.getInt("face_off")
+                    }
 
                     intArrayOf(standard, faceoff)
 

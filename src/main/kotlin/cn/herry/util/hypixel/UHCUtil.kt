@@ -24,8 +24,13 @@ object UHCUtil {
                 if (uhc.getJSONObject("modes") != null) {
                     val modes = uhc.getJSONObject("modes")
 
-                    solo = modes.getInt("SOLO")
-                    teams = modes.getInt("TEAMS")
+                    if (modes.getInt("SOLO") != null) {
+                        solo = modes.getInt("SOLO")
+                    }
+
+                    if (modes.getInt("TEAMS") != null) {
+                        teams = modes.getInt("TEAMS")
+                    }
 
                     return intArrayOf(solo, teams)
                 }

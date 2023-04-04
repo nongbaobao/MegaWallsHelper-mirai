@@ -79,7 +79,7 @@ object MegaWallsCommand : CompositeCommand(
         if (MinecraftUtil.hasUser(name)) {
             val playerData = MongoUtil.getDataByDate(name, LocalDate.now().toString())
             if (MongoUtil.isFirstTime(name)) {
-                if (!MongoUtil.hasDaily(name)) {
+                if (MongoUtil.hasDaily(name)) {
                     subject.sendMessage(
                         "=====mw小帮手======\n".toPlainText() +
                                 "您可能是第一次使用！\n请等待重置时间后再获取您的daily/monthly/yearly数据!"
@@ -135,7 +135,7 @@ object MegaWallsCommand : CompositeCommand(
                                         "| 终杀/终死: $finalKills / $finalDeaths\n".toPlainText() +
                                         "| FKDR: $fkd\n".toPlainText() +
                                         "| 终辅: $finalAssists".toPlainText() +
-                                        "| FAFA/FD: $fkfafd".toPlainText() +
+                                        "| FKFA/FD: $fkfafd".toPlainText() +
                                         "| 胜场/败场: $wins / $losses\n".toPlainText() +
                                         "| W/L: $wl".toPlainText()
 
@@ -195,7 +195,7 @@ object MegaWallsCommand : CompositeCommand(
                                         "| 终杀/终死: $finalKills / $finalDeaths\n".toPlainText() +
                                         "| FKDR: $fkd\n".toPlainText() +
                                         "| 终辅: $finalAssists".toPlainText() +
-                                        "| FAFA/FD: $fkfafd".toPlainText() +
+                                        "| FKFA/FD: $fkfafd".toPlainText() +
                                         "| 胜场/败场: $wins / $losses\n".toPlainText() +
                                         "| W/L: $wl".toPlainText()
 
@@ -255,7 +255,7 @@ object MegaWallsCommand : CompositeCommand(
                                         "| 终杀/终死: $finalKills / $finalDeaths\n".toPlainText() +
                                         "| FKDR: $fkd\n".toPlainText() +
                                         "| 终辅: $finalAssists".toPlainText() +
-                                        "| FAFA/FD: $fkfafd".toPlainText() +
+                                        "| FKFA/FD: $fkfafd".toPlainText() +
                                         "| 胜场/败场: $wins / $losses\n".toPlainText() +
                                         "| W/L: $wl".toPlainText()
 
