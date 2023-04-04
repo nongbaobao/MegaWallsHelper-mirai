@@ -5,7 +5,7 @@
 
 # 依赖
 [Hutools](https://hutool.cn/)\
-OkHttp3
+[OkHttp3](https://square.github.io/okhttp/)
 ---
 
 # 数据库
