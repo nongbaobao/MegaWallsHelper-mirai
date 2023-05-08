@@ -16,6 +16,7 @@ object ConsoleCommand : CompositeCommand(
         AbstractPermitteeId.AnyMember(id).permit(HelpCommand.permission)
         AbstractPermitteeId.AnyMember(id).permit(MegaWallsCommand.permission)
         AbstractPermitteeId.AnyMember(id).permit(ExcapesCommand.permission)
+        AbstractPermitteeId.AnyMember(id).permit(UHCCommand.permission)
         sendMessage("OK")
     }
 

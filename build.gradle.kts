@@ -7,7 +7,7 @@ plugins {
 }
 
 group = "cn.herry"
-version = "0.3.5"
+version = "0.3.6"
 
 repositories {
     maven("https://maven.aliyun.com/repository/public")
@@ -16,6 +16,5 @@ repositories {
 
 dependencies {
     implementation("com.squareup.okhttp3:okhttp:4.10.0")
-    implementation("org.mongodb:mongodb-driver-sync:4.9.0")
     implementation("cn.hutool:hutool-all:5.8.16")
 }

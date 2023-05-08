@@ -13,9 +13,9 @@ object MinecraftUtil {
             .url("https://api.mojang.com/users/profiles/minecraft/$user")
             .build()
         val response = client.newCall(request).execute()
-        val code = response.code
+        val json = JSONUtil.parseObj(response.body!!.string())
         response.close()
-        return code != 204
+        return json.getStr("name") != null
     }
 
     fun getUUID(user: String): String {

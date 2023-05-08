@@ -2,10 +2,6 @@ package cn.herry
 
 import cn.herry.command.*
 import cn.herry.config.Config
-import cn.herry.util.hypixel.MegaWallsUtil
-import cn.herry.util.mongoDB.MongoUtil
-import cn.hutool.cron.CronUtil
-import cn.hutool.cron.task.Task
 import net.mamoe.mirai.console.command.CommandManager.INSTANCE.register
 import net.mamoe.mirai.console.plugin.jvm.JvmPluginDescription
 import net.mamoe.mirai.console.plugin.jvm.KotlinPlugin
@@ -25,24 +21,13 @@ object Helper : KotlinPlugin(
 
         Config.reload()
 
-        HelpCommand.register()
+        // HelpCommand.register()
         ConsoleCommand.register()
         MegaWallsCommand.register()
         ExcapesCommand.register()
-
-        CronUtil.schedule("0 0 12 * * ?", Task {
-            val users = MongoUtil.getUsedUser().iterator()
-            users.forEach {
-                MegaWallsUtil.getPlayerDataAndSave(it["name"] as String)
-            }
-
-            logger.info("已获取今日玩家的数据！")
-        })
-        CronUtil.start()
+        UHCCommand.register()
     }
 
-    override fun onDisable() {
-        MongoUtil.client.close()
-    }
+    override fun onDisable() {}
 }
 
