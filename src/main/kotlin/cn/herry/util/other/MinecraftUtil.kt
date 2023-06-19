@@ -1,6 +1,5 @@
-package cn.herry.util.hypixel
+package cn.herry.util.other
 
-import cn.herry.util.other.WebUtil
 import cn.hutool.json.JSONUtil
 import okhttp3.OkHttpClient
 import okhttp3.Request

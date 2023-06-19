@@ -1,4 +1,4 @@
-package cn.herry.util.hypixel
+package cn.herry.util.hypixel.game
 
 import cn.herry.config.Config
 import cn.herry.util.other.WebUtil
@@ -14,7 +14,7 @@ object UHCUtil {
                 return null
             }
 
-            val json = JSONUtil.parseObj(WebUtil.getJson("https://api.hypixel.net/counts?key=${publicApi}"))
+            val json = JSONUtil.parseObj(WebUtil.getJson("https://api.hypixel.net/counts?key=$publicApi"))
 
             var solo = 0
             var teams = 0

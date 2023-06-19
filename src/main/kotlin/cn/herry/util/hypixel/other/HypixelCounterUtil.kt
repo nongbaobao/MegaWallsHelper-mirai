@@ -1,4 +1,4 @@
-package cn.herry.util.hypixel
+package cn.herry.util.hypixel.other
 
 import cn.herry.config.Config
 import cn.herry.util.other.WebUtil
@@ -9,34 +9,6 @@ import net.mamoe.mirai.message.data.toPlainText
 object HypixelCounterUtil {
 
     private val publicApi: String = Config.apiKey
-
-    val bwCounter: MessageChain
-        get() {
-
-            if (publicApi == "") {
-                return "======mw小帮手======\n".toPlainText() +
-                        "查询失败!\n".toPlainText() +
-                        "未填写apikey或者apikey无效！\n".toPlainText()
-            }
-
-            val json = JSONUtil.parseObj(WebUtil.getJson("https://api.hypixel.net/counts?key=$publicApi"))
-
-            var bedWarsTwoFour = 0
-            var bedWarsFourThree = 0
-            var teamsNormal = 0
-
-            if (json.getBool("success")) {
-                val SKYWARS = json.getJSONObject("games").getJSONObject("SKYWARS")
-                if (SKYWARS.getJSONObject("modes") != null) {
-                    val modes = SKYWARS.getJSONObject("modes")
-
-
-                }
-            }
-
-            return "".toPlainText() + ""
-
-        }
 
     val swCounter: MessageChain
         get() {
@@ -72,7 +44,7 @@ object HypixelCounterUtil {
                 }
             }
 
-            return "=====hyp counter=====\n".toPlainText() +
+            return "=====mw小帮手=====\n".toPlainText() +
                     "| SkyWars solo_normal: $soloNormal\n".toPlainText() +
                     "| SkyWars solo_insane: $soloInsane\n".toPlainText() +
                     "| SkyWars teams_normal: $teamsNormal".toPlainText()
@@ -95,7 +67,7 @@ object HypixelCounterUtil {
                 total = json.getInt("playerCount")
             }
 
-            return "=====hyp counter=====\n".toPlainText() +
+            return "=====mw小帮手=====\n".toPlainText() +
                     "| Hypixel Total: $total".toPlainText()
         }
 
@@ -128,7 +100,7 @@ object HypixelCounterUtil {
                 }
             }
 
-            return "=====hyp counter=====\n".toPlainText() +
+            return "=====mw小帮手=====\n".toPlainText() +
                     "| Megawalls Standard: ${standard}\n".toPlainText() +
                     "| Megawalls Faceoff: ${faceoff}\n".toPlainText()
         }
@@ -141,7 +113,7 @@ object HypixelCounterUtil {
                         "未填写apikey或者apikey无效！\n".toPlainText()
             }
 
-            val json = JSONUtil.parseObj(WebUtil.getJson("https://api.hypixel.net/counts?key=${publicApi}"))
+            val json = JSONUtil.parseObj(WebUtil.getJson("https://api.hypixel.net/counts?key=$publicApi"))
 
             var solo = 0
             var teams = 0

@@ -17,4 +17,5 @@ repositories {
 dependencies {
     implementation("com.squareup.okhttp3:okhttp:4.10.0")
     implementation("cn.hutool:hutool-all:5.8.16")
+    implementation ("org.mongodb:mongodb-driver-sync:4.9.1")
 }

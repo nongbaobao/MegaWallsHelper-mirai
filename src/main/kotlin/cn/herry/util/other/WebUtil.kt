@@ -4,7 +4,6 @@ import okhttp3.OkHttpClient
 import okhttp3.Request
 
 object WebUtil {
-
     fun getJson(url: String): String? {
         val client = OkHttpClient()
         val request = Request.Builder()

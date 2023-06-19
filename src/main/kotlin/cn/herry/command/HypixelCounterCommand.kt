@@ -1,7 +1,7 @@
 package cn.herry.command
 
 import cn.herry.Helper
-import cn.herry.util.hypixel.HypixelCounterUtil
+import cn.herry.util.hypixel.other.HypixelCounterUtil
 import net.mamoe.mirai.console.command.CompositeCommand
 import net.mamoe.mirai.console.command.UserCommandSender
 

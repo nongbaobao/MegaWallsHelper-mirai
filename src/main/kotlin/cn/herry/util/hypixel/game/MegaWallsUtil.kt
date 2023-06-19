@@ -1,4 +1,4 @@
-package cn.herry.util.hypixel
+package cn.herry.util.hypixel.game
 
 import cn.herry.config.Config
 import cn.herry.util.other.WebUtil

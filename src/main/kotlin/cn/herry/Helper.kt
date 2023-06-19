@@ -2,6 +2,7 @@ package cn.herry
 
 import cn.herry.command.*
 import cn.herry.config.Config
+import cn.herry.util.mongoDB.MongoUtil
 import net.mamoe.mirai.console.command.CommandManager.INSTANCE.register
 import net.mamoe.mirai.console.plugin.jvm.JvmPluginDescription
 import net.mamoe.mirai.console.plugin.jvm.KotlinPlugin
@@ -20,15 +21,17 @@ object Helper : KotlinPlugin(
         logger.info { "Plugin Loaded" }
 
         Config.reload()
-
-        // HelpCommand.register()
         ConsoleCommand.register()
         MegaWallsCommand.register()
         ExcapesCommand.register()
         UHCCommand.register()
         HypixelCounterCommand.register()
+
+        MongoUtil.server.startSession()
     }
 
-    override fun onDisable() {}
+    override fun onDisable() {
+        MongoUtil.server.close()
+    }
 }
 

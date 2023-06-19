@@ -1,8 +1,8 @@
 package cn.herry.command
 
 import cn.herry.Helper
-import cn.herry.util.hypixel.MegaWallsUtil
-import cn.herry.util.hypixel.MinecraftUtil
+import cn.herry.util.hypixel.game.MegaWallsUtil
+import cn.herry.util.other.MinecraftUtil
 import net.mamoe.mirai.console.command.CompositeCommand
 import net.mamoe.mirai.console.command.UserCommandSender
 import net.mamoe.mirai.contact.Contact.Companion.uploadImage
