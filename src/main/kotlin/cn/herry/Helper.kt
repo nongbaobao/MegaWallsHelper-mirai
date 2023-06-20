@@ -3,6 +3,8 @@ package cn.herry
 import cn.herry.command.*
 import cn.herry.config.Config
 import cn.herry.util.mongoDB.MongoUtil
+import cn.hutool.cron.CronUtil
+import cn.hutool.cron.task.Task
 import net.mamoe.mirai.console.command.CommandManager.INSTANCE.register
 import net.mamoe.mirai.console.plugin.jvm.JvmPluginDescription
 import net.mamoe.mirai.console.plugin.jvm.KotlinPlugin
@@ -26,6 +28,11 @@ object Helper : KotlinPlugin(
         ExcapesCommand.register()
         UHCCommand.register()
         HypixelCounterCommand.register()
+
+        CronUtil.schedule("0 0 12 * * ?", Task {
+            TODO("update player data.")
+        })
+        CronUtil.start()
 
         MongoUtil.server.startSession()
     }

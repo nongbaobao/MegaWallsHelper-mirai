@@ -1,8 +1,10 @@
 package cn.herry.util.hypixel.game
 
 import cn.herry.config.Config
+import cn.herry.util.hypixel.fks.MegaWallsPlayer
 import cn.herry.util.other.WebUtil
 import cn.hutool.json.JSONUtil
+import org.bson.json.JsonObject
 
 object MegaWallsUtil {
 
@@ -43,4 +45,11 @@ object MegaWallsUtil {
             return intArrayOf(0, 0)
         }
 
+    fun getMegaWallsPlayerData(name: String): MegaWallsPlayer? {
+        if (publicApi == "") {
+            return null
+        }
+
+        return null
+    }
 }
