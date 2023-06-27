@@ -70,4 +70,9 @@ object MegaWallsCommand : CompositeCommand(
         subject.sendMessage(msg)
     }
 
+    @SubCommand("fks")
+    suspend fun UserCommandSender.fks(name: String) {
+
+    }
+
 }
