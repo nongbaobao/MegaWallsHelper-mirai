@@ -2,6 +2,7 @@ package cn.herry.command
 
 import cn.herry.Helper
 import cn.herry.util.hypixel.game.MegaWallsUtil
+import cn.herry.util.mongoDB.MongoUtil
 import cn.herry.util.other.MinecraftUtil
 import net.mamoe.mirai.console.command.CompositeCommand
 import net.mamoe.mirai.console.command.UserCommandSender
@@ -11,6 +12,7 @@ import net.mamoe.mirai.message.data.Message
 import net.mamoe.mirai.message.data.toPlainText
 import okhttp3.OkHttpClient
 import okhttp3.Request
+import org.bson.Document
 
 object MegaWallsCommand : CompositeCommand(
     Helper,
@@ -72,7 +74,36 @@ object MegaWallsCommand : CompositeCommand(
 
     @SubCommand("fks")
     suspend fun UserCommandSender.fks(name: String) {
+        if (!MinecraftUtil.hasUser(name)) {
+            val msg = "=====mw小帮手=====\n".toPlainText() +
+                    "未找到用户名！请检查过后再获取!".toPlainText()
 
+            subject.sendMessage(msg)
+        }
+
+        if (MegaWallsUtil.hasData(name)) {
+            // has data
+
+
+        }else {
+            // by first
+            val megaWallsPlayerData = MegaWallsUtil.getMegaWallsPlayerData(name)
+            if (megaWallsPlayerData != null) {
+                val document: Document = Document("name", megaWallsPlayerData.name)
+                    .append("rank", megaWallsPlayerData.rank)
+                    .append("date", megaWallsPlayerData.date)
+                    .append("finalKills", megaWallsPlayerData.finalKills)
+                    .append("finalAssists", megaWallsPlayerData.finalAssists)
+                    .append("finalDeaths", megaWallsPlayerData.finalDeaths)
+                    .append("wins", megaWallsPlayerData.wins)
+                    .append("losses", megaWallsPlayerData.losses)
+
+                MongoUtil.writeDocumentToCollection("mw", "data", document)
+            }else {
+                subject.sendMessage("=====mw小帮手=====\n".toPlainText() +
+                        "获取hypixel信息异常！请联系管理员")
+            }
+        }
     }
 
 }

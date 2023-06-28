@@ -17,7 +17,7 @@ object MongoUtil {
     }
 
     // if u want to update your documents, u can use this function as well.
-    fun writeCollection(database: String, collectionName: String, document: Document) {
+    fun writeDocumentToCollection(database: String, collectionName: String, document: Document) {
         server.getDatabase(database)
             .getCollection(collectionName)
             .insertOne(document)

@@ -1,13 +1,12 @@
 package cn.herry.util.hypixel.game
 
 import cn.herry.config.Config
-import cn.herry.config.MongoDBConfig
 import cn.herry.util.hypixel.fks.MegaWallsPlayer
 import cn.herry.util.mongoDB.MongoUtil
 import cn.herry.util.other.MinecraftUtil
 import cn.herry.util.other.WebUtil
 import cn.hutool.json.JSONUtil
-import org.bson.json.JsonObject
+import java.time.LocalDate
 
 object MegaWallsUtil {
 
@@ -59,8 +58,9 @@ object MegaWallsUtil {
 
         val json = JSONUtil.parseObj(WebUtil.getJson("https://api.hypixel.net/player?key=$publicApi&uuid=${MinecraftUtil.getUUID(name)}"))
 
-        var rank: String = ""
         var name: String = ""
+        var rank: String = ""
+        var date: String = ""
         var finalKills: Int = 0
         var finalAssists: Int = 0
         var finalDeaths: Int = 0
@@ -98,17 +98,29 @@ object MegaWallsUtil {
                 rank = WALLS3.getStr("newPackageRank")
             }
 
-            return MegaWallsPlayer(name, rank, finalKills, finalAssists, finalDeaths, wins, losses)
+            return MegaWallsPlayer(name, rank, LocalDate.now().toString(), finalKills, finalAssists, finalDeaths, wins, losses)
         }
 
         return null
     }
 
-    fun hasData(name: String): Boolean {
-        var collection = MongoUtil.getCollection("mw", "data")
-        var iterator = collection.find().iterator()
+    fun hasDataByDate(name: String, date: LocalDate): Boolean {
+        var collections = MongoUtil.getCollection("mw", "data")
+        var iterator = collections.find().iterator()
         while (iterator.hasNext()) {
-            TODO()
+            val document = iterator.next()
+            return document["name"] == name && document["date"] == date.toString()
+        }
+
+        return false
+    }
+
+    fun hasData(name: String): Boolean {
+        var collections = MongoUtil.getCollection("mw", "data")
+        var iterator = collections.find().iterator()
+        while (iterator.hasNext()) {
+            val document = iterator.next()
+            return document["name"] == name
         }
 
         return false
