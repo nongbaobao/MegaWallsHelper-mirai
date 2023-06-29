@@ -6,6 +6,7 @@ import cn.herry.util.mongoDB.MongoUtil
 import cn.herry.util.other.MinecraftUtil
 import cn.herry.util.other.WebUtil
 import cn.hutool.json.JSONUtil
+import org.bson.Document
 import java.time.LocalDate
 
 object MegaWallsUtil {
@@ -102,6 +103,20 @@ object MegaWallsUtil {
         }
 
         return null
+    }
+
+    fun updateMegaWallsPlayerData(name: String) {
+        val megaWallsPlayerData = getMegaWallsPlayerData(name)
+        if (megaWallsPlayerData != null) {
+            val document = Document("\$set", Document("name", megaWallsPlayerData.name)
+                .append("\$set", Document("rank", megaWallsPlayerData.rank))
+                .append("\$set", Document("date", megaWallsPlayerData.date))
+                .append("\$set", Document("finalKills", megaWallsPlayerData.finalKills))
+                .append("finalAssists", megaWallsPlayerData.finalAssists)
+                .append("finalDeaths", megaWallsPlayerData.finalDeaths)
+                .append("wins", megaWallsPlayerData.wins)
+                .append("losses", megaWallsPlayerData.losses))
+        }
     }
 
     fun hasDataByDate(name: String, date: LocalDate): Boolean {

@@ -13,6 +13,7 @@ import net.mamoe.mirai.message.data.toPlainText
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import org.bson.Document
+import java.time.LocalDate
 
 object MegaWallsCommand : CompositeCommand(
     Helper,
@@ -73,7 +74,7 @@ object MegaWallsCommand : CompositeCommand(
     }
 
     @SubCommand("fks")
-    suspend fun UserCommandSender.fks(name: String) {
+    suspend fun UserCommandSender.fks(name: String, date: String) {
         if (!MinecraftUtil.hasUser(name)) {
             val msg = "=====mw小帮手=====\n".toPlainText() +
                     "未找到用户名！请检查过后再获取!".toPlainText()
@@ -84,6 +85,29 @@ object MegaWallsCommand : CompositeCommand(
         if (MegaWallsUtil.hasData(name)) {
             // has data
 
+            when (date) {
+                "daily" -> {
+                    if (MegaWallsUtil.hasDataByDate(name, LocalDate.now().minusDays(1))) {
+
+                    } else {
+                      subject.sendMessage("=====小帮手=====\n".toPlainText() +
+                              "未找到每日数据！请等待一天后再试！")
+                    }
+                }
+
+                "weekly" -> {
+
+                }
+
+                "monthly" -> {
+
+                }
+
+                else -> {
+                    subject.sendMessage("=====mw小帮手=====\n".toPlainText() +
+                            "错误的用法！正确使用方法为/mw fks name daily/weekly/monthly".toPlainText())
+                }
+            }
 
         }else {
             // by first
@@ -101,7 +125,7 @@ object MegaWallsCommand : CompositeCommand(
                 MongoUtil.writeDocumentToCollection("mw", "data", document)
             }else {
                 subject.sendMessage("=====mw小帮手=====\n".toPlainText() +
-                        "获取hypixel信息异常！请联系管理员")
+                        "获取hypixel信息异常！请联系管理员".toPlainText())
             }
         }
     }
