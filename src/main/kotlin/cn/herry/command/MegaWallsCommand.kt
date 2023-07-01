@@ -90,8 +90,11 @@ object MegaWallsCommand : CompositeCommand(
                     if (MegaWallsUtil.hasDataByDate(name, LocalDate.now().minusDays(1))) {
 
                     } else {
-                      subject.sendMessage("=====小帮手=====\n".toPlainText() +
-                              "未找到每日数据！请等待一天后再试！")
+                        MegaWallsUtil.updateMegaWallsPlayerData(name)
+                        subject.sendMessage(
+                            "=====小帮手=====\n".toPlainText() +
+                                    "未找到每日数据！请等待一天后再试！"
+                        )
                     }
                 }
 
@@ -104,12 +107,14 @@ object MegaWallsCommand : CompositeCommand(
                 }
 
                 else -> {
-                    subject.sendMessage("=====mw小帮手=====\n".toPlainText() +
-                            "错误的用法！正确使用方法为/mw fks name daily/weekly/monthly".toPlainText())
+                    subject.sendMessage(
+                        "=====mw小帮手=====\n".toPlainText() +
+                                "错误的用法！正确使用方法为/mw fks name daily/weekly/monthly".toPlainText()
+                    )
                 }
             }
 
-        }else {
+        } else {
             // by first
             val megaWallsPlayerData = MegaWallsUtil.getMegaWallsPlayerData(name)
             if (megaWallsPlayerData != null) {
@@ -123,9 +128,11 @@ object MegaWallsCommand : CompositeCommand(
                     .append("losses", megaWallsPlayerData.losses)
 
                 MongoUtil.writeDocumentToCollection("mw", "data", document)
-            }else {
-                subject.sendMessage("=====mw小帮手=====\n".toPlainText() +
-                        "获取hypixel信息异常！请联系管理员".toPlainText())
+            } else {
+                subject.sendMessage(
+                    "=====mw小帮手=====\n".toPlainText() +
+                            "获取hypixel信息异常！请联系管理员".toPlainText()
+                )
             }
         }
     }

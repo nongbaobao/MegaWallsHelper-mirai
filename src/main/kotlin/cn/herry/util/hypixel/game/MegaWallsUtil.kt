@@ -112,15 +112,23 @@ object MegaWallsUtil {
                 .append("\$set", Document("rank", megaWallsPlayerData.rank))
                 .append("\$set", Document("date", megaWallsPlayerData.date))
                 .append("\$set", Document("finalKills", megaWallsPlayerData.finalKills))
-                .append("finalAssists", megaWallsPlayerData.finalAssists)
-                .append("finalDeaths", megaWallsPlayerData.finalDeaths)
-                .append("wins", megaWallsPlayerData.wins)
-                .append("losses", megaWallsPlayerData.losses))
+                .append("\$set", Document("finalAssists", megaWallsPlayerData.finalAssists))
+                .append("\$set", Document("finalDeaths", megaWallsPlayerData.finalDeaths))
+                .append("\$set", Document("wins", megaWallsPlayerData.wins))
+                .append("\$set", Document("losses", megaWallsPlayerData.losses)))
+        }
+
+        val iterator = MongoUtil.getDocuments("mw", "data").find().iterator()
+        while (iterator.hasNext()) {
+            val document = iterator.next()
+            if (document["name"] == name && document["date"] == LocalDate.now()) {
+
+            }
         }
     }
 
     fun hasDataByDate(name: String, date: LocalDate): Boolean {
-        var collections = MongoUtil.getCollection("mw", "data")
+        var collections = MongoUtil.getDocuments("mw", "data")
         var iterator = collections.find().iterator()
         while (iterator.hasNext()) {
             val document = iterator.next()
@@ -131,7 +139,7 @@ object MegaWallsUtil {
     }
 
     fun hasData(name: String): Boolean {
-        var collections = MongoUtil.getCollection("mw", "data")
+        var collections = MongoUtil.getDocuments("mw", "data")
         var iterator = collections.find().iterator()
         while (iterator.hasNext()) {
             val document = iterator.next()

@@ -11,7 +11,7 @@ object MongoUtil {
     // 默认认证方式为用户名密码
     val server: MongoClient = MongoClients.create("mongodb://${MongoDBConfig.username}:${MongoDBConfig.password}@${MongoDBConfig.serverIp}:${MongoDBConfig.serverPort}/?authMechanism=SCRAM-SHA-256")
 
-    fun getCollection(database: String, collectionName: String): MongoCollection<Document> {
+    fun getDocuments(database: String, collectionName: String): MongoCollection<Document> {
         return server.getDatabase(database)
             .getCollection(collectionName)
     }
