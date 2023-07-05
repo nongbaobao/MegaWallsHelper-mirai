@@ -82,12 +82,18 @@ object MegaWallsCommand : CompositeCommand(
             subject.sendMessage(msg)
         }
 
+        if (MegaWallsUtil.hasDataByDate(name, LocalDate.now())) {
+            MegaWallsUtil.updateMegaWallsPlayerData(name)
+        }
+
         if (MegaWallsUtil.hasData(name)) {
             // has data
-
             when (date) {
                 "daily" -> {
                     if (MegaWallsUtil.hasDataByDate(name, LocalDate.now().minusDays(1))) {
+                        val today = MegaWallsUtil.getMegaWallsPlayerDataByDate(name, LocalDate.now())
+                        val yesterday = MegaWallsUtil.getMegaWallsPlayerDataByDate(name, LocalDate.now().minusDays(1))
+
 
                     } else {
                         MegaWallsUtil.updateMegaWallsPlayerData(name)
@@ -116,18 +122,11 @@ object MegaWallsCommand : CompositeCommand(
 
         } else {
             // by first
-            val megaWallsPlayerData = MegaWallsUtil.getMegaWallsPlayerData(name)
-            if (megaWallsPlayerData != null) {
-                val document: Document = Document("name", megaWallsPlayerData.name)
-                    .append("rank", megaWallsPlayerData.rank)
-                    .append("date", megaWallsPlayerData.date)
-                    .append("finalKills", megaWallsPlayerData.finalKills)
-                    .append("finalAssists", megaWallsPlayerData.finalAssists)
-                    .append("finalDeaths", megaWallsPlayerData.finalDeaths)
-                    .append("wins", megaWallsPlayerData.wins)
-                    .append("losses", megaWallsPlayerData.losses)
-
-                MongoUtil.writeDocumentToCollection("mw", "data", document)
+            if (MegaWallsUtil.writeDataByFirst(name)) {
+                subject.sendMessage(
+                    "=====mw小帮手=====\n".toPlainText() +
+                            "第一次使用，已获取今日数据并记录！".toPlainText()
+                )
             } else {
                 subject.sendMessage(
                     "=====mw小帮手=====\n".toPlainText() +
