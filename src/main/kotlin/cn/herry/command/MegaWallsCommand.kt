@@ -91,25 +91,56 @@ object MegaWallsCommand : CompositeCommand(
             when (date) {
                 "daily" -> {
                     if (MegaWallsUtil.hasDataByDate(name, LocalDate.now().minusDays(1))) {
-                        val today = MegaWallsUtil.getMegaWallsPlayerDataByDate(name, LocalDate.now())
-                        val yesterday = MegaWallsUtil.getMegaWallsPlayerDataByDate(name, LocalDate.now().minusDays(1))
+                        val today = MegaWallsUtil.getMegaWallsPlayerDataByDate(name, LocalDate.now())!!
+                        val yesterday = MegaWallsUtil.getMegaWallsPlayerDataByDate(name, LocalDate.now().minusDays(1))!!
 
+                        // based data
+                        val name: String = today.name
+                        val rank: String = today.rank
+                        val date: String = "${yesterday.date} -> ${today.date}"
+                        val finalKills: Int = yesterday.finalKills - today.finalKills
+                        val finalAssists: Int = yesterday.finalAssists - today.finalDeaths
+                        val finalDeaths: Int = yesterday.finalDeaths - today.finalDeaths
+                        val wins: Int = yesterday.wins - today.wins
+                        val losses: Int = yesterday.losses - today.losses
+
+                        // 处理后的数据
 
                     } else {
                         MegaWallsUtil.updateMegaWallsPlayerData(name)
                         subject.sendMessage(
                             "=====小帮手=====\n".toPlainText() +
-                                    "未找到每日数据！请等待一天后再试！"
+                                    "未找到每日数据！请等待一天后再试！".toPlainText()
                         )
                     }
                 }
 
                 "weekly" -> {
+                    if (MegaWallsUtil.hasDataByDate(name, LocalDate.now().minusWeeks(1))) {
+                        val today = MegaWallsUtil.getMegaWallsPlayerDataByDate(name, LocalDate.now())
+                        val lastWeek = MegaWallsUtil.getMegaWallsPlayerDataByDate(name, LocalDate.now().minusWeeks(1))
 
+                    } else {
+                        MegaWallsUtil.updateMegaWallsPlayerData(name)
+                        subject.sendMessage(
+                            "=====小帮手=====\n".toPlainText() +
+                                    "未找到每星期数据！请等待一星期后再试！".toPlainText()
+                        )
+                    }
                 }
 
                 "monthly" -> {
+                    if (MegaWallsUtil.hasDataByDate(name, LocalDate.now().minusMonths(1))) {
+                        val today = MegaWallsUtil.getMegaWallsPlayerDataByDate(name, LocalDate.now())
+                        val lastMonth = MegaWallsUtil.getMegaWallsPlayerDataByDate(name, LocalDate.now().minusMonths(1))
 
+                    } else {
+                        MegaWallsUtil.updateMegaWallsPlayerData(name)
+                        subject.sendMessage(
+                            "=====小帮手=====\n".toPlainText() +
+                                    "未找到每星期数据！请等待一个月后再试！".toPlainText()
+                        )
+                    }
                 }
 
                 else -> {
