@@ -2,12 +2,14 @@ package cn.herry
 
 import cn.herry.command.*
 import cn.herry.config.Config
+import cn.herry.util.hypixel.game.MegaWallsUtil
 import cn.herry.util.mongoDB.MongoUtil
 import cn.hutool.cron.CronUtil
 import cn.hutool.cron.task.Task
 import net.mamoe.mirai.console.command.CommandManager.INSTANCE.register
 import net.mamoe.mirai.console.plugin.jvm.JvmPluginDescription
 import net.mamoe.mirai.console.plugin.jvm.KotlinPlugin
+import net.mamoe.mirai.console.plugin.name
 import net.mamoe.mirai.utils.info
 
 object Helper : KotlinPlugin(
@@ -30,7 +32,9 @@ object Helper : KotlinPlugin(
         HypixelCounterCommand.register()
 
         CronUtil.schedule("0 0 12 * * ?", Task {
-            TODO("update player data.")
+            MegaWallsUtil.getAllMegawallsPlayersName().forEach {
+                MegaWallsUtil.updateMegaWallsPlayerData(it)
+            }
         })
         CronUtil.start()
 

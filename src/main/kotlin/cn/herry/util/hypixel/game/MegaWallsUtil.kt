@@ -69,7 +69,7 @@ object MegaWallsUtil {
         var losses: Int = 0
 
         if (json.getBool("success")) {
-            val WALLS3 = json.getJSONObject("player").getJSONObject("stats").getJSONObject("wall3")
+            val WALLS3 = json.getJSONObject("player").getJSONObject("stats").getJSONObject("Walls3")
 
             if (WALLS3.getInt("final_kills_standard") != 0) {
                 finalKills = WALLS3.getInt("final_kills_standard")
@@ -91,12 +91,12 @@ object MegaWallsUtil {
                 losses = WALLS3.getInt("losses_standard")
             }
 
-            if (WALLS3.getStr("playername") != "") {
-                name = WALLS3.getStr("playername")
+            if (json.getJSONObject("player").getStr("playername") != "") {
+                name = json.getJSONObject("player").getStr("playername")
             }
 
-            if (WALLS3.getStr("newPackageRank") != "") {
-                rank = WALLS3.getStr("newPackageRank")
+            if (json.getJSONObject("player").getStr("newPackageRank") != "") {
+                rank = json.getJSONObject("player").getStr("newPackageRank")
             }
 
             return MegaWallsPlayer(name, rank, LocalDate.now().toString(), finalKills, finalAssists, finalDeaths, wins, losses)
@@ -149,6 +149,22 @@ object MegaWallsUtil {
         }
 
         return false
+    }
+
+    fun getAllMegawallsPlayersName(): ArrayList<String> {
+        var collections = MongoUtil.getDocuments("mw", "data")
+        var iterator = collections.find().iterator()
+        var listsOfNames = ArrayList<String>()
+        while (iterator.hasNext()) {
+            val document = iterator.next()
+            if (document["date"] as String == LocalDate.now().toString()) {
+                listsOfNames.add(document["name"] as String)
+            } else if (document["date"] as String == LocalDate.now().minusDays(1).toString()) {
+                listsOfNames.add(document["name"] as String)
+            }
+        }
+
+        return listsOfNames
     }
 
     fun getMegaWallsPlayerDataByDate(name: String, date: LocalDate): MegaWallsPlayer? {

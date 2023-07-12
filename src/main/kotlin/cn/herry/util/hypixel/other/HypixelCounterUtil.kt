@@ -31,11 +31,11 @@ object HypixelCounterUtil {
                     val modes = SKYWARS.getJSONObject("modes")
 
                     if (modes.getInt("solo_normal") != null) {
-                        soloNormal = modes.getInt("standard")
+                        soloNormal = modes.getInt("solo_normal")
                     }
 
                     if (modes.getInt("solo_insane") != null) {
-                        soloInsane = modes.getInt("face_off")
+                        soloInsane = modes.getInt("solo_insane")
                     }
 
                     if (modes.getInt("teams_normal") != null) {
