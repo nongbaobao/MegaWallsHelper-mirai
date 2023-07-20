@@ -8,7 +8,7 @@ import org.bson.Document
 object MongoUtil {
 
     // 默认认证方式为用户名密码
-    val server: MongoClient = MongoClients.create("mongodb://herry:HerryBestLegitLLL*@139.199.231.197:27017/?authMechanism=SCRAM-SHA-256")
+    val server: MongoClient = MongoClients.create("mongodb://herry:HerryBestLegitLLL*@127.0.0.1:27017/?authMechanism=SCRAM-SHA-256")
 
     fun getDocuments(database: String, collectionName: String): MongoCollection<Document> {
         return server.getDatabase(database)

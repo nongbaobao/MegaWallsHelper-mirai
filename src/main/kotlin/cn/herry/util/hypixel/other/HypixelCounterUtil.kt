@@ -24,6 +24,7 @@ object HypixelCounterUtil {
             var soloNormal = 0
             var soloInsane = 0
             var teamsNormal = 0
+            var teamsInsane = 0
 
             if (json.getBool("success")) {
                 val SKYWARS = json.getJSONObject("games").getJSONObject("SKYWARS")
@@ -41,13 +42,18 @@ object HypixelCounterUtil {
                     if (modes.getInt("teams_normal") != null) {
                         teamsNormal = modes.getInt("teams_normal")
                     }
+
+                    if (modes.getInt("teams_insane") != null) {
+                        teamsInsane = modes.getInt("teams_insane")
+                    }
                 }
             }
 
             return "=====mw小帮手=====\n".toPlainText() +
                     "| SkyWars solo_normal: $soloNormal\n".toPlainText() +
                     "| SkyWars solo_insane: $soloInsane\n".toPlainText() +
-                    "| SkyWars teams_normal: $teamsNormal".toPlainText()
+                    "| SkyWars teams_normal: $teamsNormal\n".toPlainText() +
+                    "| SkyWars teams_insane: $teamsInsane".toPlainText()
 
         }
 

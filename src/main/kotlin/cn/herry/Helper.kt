@@ -31,7 +31,7 @@ object Helper : KotlinPlugin(
         UHCCommand.register()
         HypixelCounterCommand.register()
 
-        CronUtil.schedule("0 0 12 * * ?", Task {
+        CronUtil.schedule("0 0 */2 * * ?", Task {
             MegaWallsUtil.getAllMegawallsPlayersName().forEach {
                 MegaWallsUtil.updateMegaWallsPlayerData(it)
             }

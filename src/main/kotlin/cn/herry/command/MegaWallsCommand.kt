@@ -87,9 +87,17 @@ object MegaWallsCommand : CompositeCommand(
         }
 
         if (MegaWallsUtil.hasData(name)) {
+
+            if (MegaWallsUtil.hasDataByDate(name, LocalDate.now())) {
+                MegaWallsUtil.updateMegaWallsPlayerData(name)
+            } else {
+                MegaWallsUtil.writeDataByFirst(name)
+            }
+
             // has data
             when (date) {
                 "daily" -> {
+
                     if (MegaWallsUtil.hasDataByDate(name, LocalDate.now().minusDays(1))) {
                         val today = MegaWallsUtil.getMegaWallsPlayerDataByDate(name, LocalDate.now())!!
                         val yesterday = MegaWallsUtil.getMegaWallsPlayerDataByDate(name, LocalDate.now().minusDays(1))!!
@@ -98,29 +106,29 @@ object MegaWallsCommand : CompositeCommand(
                         val name: String = today.name
                         val rank: String = today.rank
                         val date = "${yesterday.date} -> ${today.date}"
-                        val finalKills: Int = yesterday.finalKills - today.finalKills
-                        val finalAssists: Int = yesterday.finalAssists - today.finalDeaths
-                        val finalDeaths: Int = yesterday.finalDeaths - today.finalDeaths
-                        val wins: Int = yesterday.wins - today.wins
-                        val losses: Int = yesterday.losses - today.losses
+                        val finalKills: Double = (today.finalKills - yesterday.finalKills).toDouble()
+                        val finalAssists: Double = (today.finalAssists - yesterday.finalAssists).toDouble()
+                        val finalDeaths: Double = (today.finalDeaths - yesterday.finalDeaths).toDouble()
+                        val wins: Double = (today.wins - yesterday.wins).toDouble()
+                        val losses: Double = (today.losses - yesterday.losses).toDouble()
 
                         // 处理后的数据
-                        val wlr: String = "%.2f".format(if (wins != 0 && losses == 0) {
-                            wins.toDouble()
+                        val wlr = String.format("%.2f", if (wins != 0.toDouble() && losses == 0.toDouble()) {
+                            wins
                         }else {
-                            (wins/losses).toDouble()
+                            wins/losses
                         })
 
-                        val fkdr: String = "%.2f".format(if (finalKills != 0 && finalDeaths == 0) {
-                            finalKills.toDouble()
+                        val fkdr: String = String.format("%.2f", if (finalKills != 0.toDouble() && finalDeaths == 0.toDouble()) {
+                            finalKills
                         }else {
-                            (finalKills/finalDeaths).toDouble()
+                            finalKills/finalDeaths
                         })
 
-                        val fkfafd: String = "%.2f".format(if (finalKills+finalAssists != 0 && finalDeaths == 0) {
-                            (finalKills+finalAssists).toDouble()
+                        val fkfafd: String = String.format("%.2f", if (finalKills+finalAssists != 0.toDouble() && finalDeaths == 0.toDouble()) {
+                            finalKills+finalAssists
                         }else {
-                            ((finalKills+finalAssists) / finalDeaths).toDouble()
+                            (finalKills+finalAssists) / finalDeaths
                         })
 
                         val msg = "=====mw小帮手=====\n".toPlainText() +
@@ -137,7 +145,12 @@ object MegaWallsCommand : CompositeCommand(
 
                         subject.sendMessage(msg)
                     } else {
-                        MegaWallsUtil.updateMegaWallsPlayerData(name)
+                        if (MegaWallsUtil.hasDataByDate(name, LocalDate.now())) {
+                            MegaWallsUtil.updateMegaWallsPlayerData(name)
+                        } else {
+                            MegaWallsUtil.writeDataByFirst(name)
+                        }
+
                         subject.sendMessage(
                             "=====小帮手=====\n".toPlainText() +
                                     "未找到每日数据！请等待一天后再试！".toPlainText()
@@ -154,29 +167,29 @@ object MegaWallsCommand : CompositeCommand(
                         val name: String = today.name
                         val rank: String = today.rank
                         val date = "${lastWeek.date} -> ${today.date}"
-                        val finalKills: Int = lastWeek.finalKills - today.finalKills
-                        val finalAssists: Int = lastWeek.finalAssists - today.finalDeaths
-                        val finalDeaths: Int = lastWeek.finalDeaths - today.finalDeaths
-                        val wins: Int = lastWeek.wins - today.wins
-                        val losses: Int = lastWeek.losses - today.losses
+                        val finalKills: Double = (today.finalKills - lastWeek.finalKills).toDouble()
+                        val finalAssists: Double = (today.finalAssists - lastWeek.finalAssists).toDouble()
+                        val finalDeaths: Double = (today.finalDeaths - lastWeek.finalDeaths).toDouble()
+                        val wins: Double = (today.wins - lastWeek.wins).toDouble()
+                        val losses: Double = (today.losses - lastWeek.losses).toDouble()
 
                         // 处理后的数据
-                        val wlr: String = "%.2f".format(if (wins != 0 && losses == 0) {
-                            wins.toDouble()
+                        val wlr = String.format("%.2f", if (wins != 0.toDouble() && losses == 0.toDouble()) {
+                            wins
                         }else {
-                            (wins/losses).toDouble()
+                            wins/losses
                         })
 
-                        val fkdr: String = "%.2f".format(if (finalKills != 0 && finalDeaths == 0) {
-                            finalKills.toDouble()
+                        val fkdr: String = String.format("%.2f", if (finalKills != 0.toDouble() && finalDeaths == 0.toDouble()) {
+                            finalKills
                         }else {
-                            (finalKills/finalDeaths).toDouble()
+                            finalKills/finalDeaths
                         })
 
-                        val fkfafd: String = "%.2f".format(if (finalKills+finalAssists != 0 && finalDeaths == 0) {
-                            (finalKills+finalAssists).toDouble()
+                        val fkfafd: String = String.format("%.2f", if (finalKills+finalAssists != 0.toDouble() && finalDeaths == 0.toDouble()) {
+                            finalKills+finalAssists
                         }else {
-                            ((finalKills+finalAssists) / finalDeaths).toDouble()
+                            (finalKills+finalAssists) / finalDeaths
                         })
 
                         val msg = "=====mw小帮手=====\n".toPlainText() +
@@ -193,7 +206,12 @@ object MegaWallsCommand : CompositeCommand(
 
                         subject.sendMessage(msg)
                     } else {
-                        MegaWallsUtil.updateMegaWallsPlayerData(name)
+                        if (MegaWallsUtil.hasDataByDate(name, LocalDate.now())) {
+                            MegaWallsUtil.updateMegaWallsPlayerData(name)
+                        } else {
+                            MegaWallsUtil.writeDataByFirst(name)
+                        }
+
                         subject.sendMessage(
                             "=====小帮手=====\n".toPlainText() +
                                     "未找到每星期数据！请等待一星期后再试！".toPlainText()
@@ -210,29 +228,29 @@ object MegaWallsCommand : CompositeCommand(
                         val name: String = today.name
                         val rank: String = today.rank
                         val date = "${lastMonth.date} -> ${today.date}"
-                        val finalKills: Int = lastMonth.finalKills - today.finalKills
-                        val finalAssists: Int = lastMonth.finalAssists - today.finalDeaths
-                        val finalDeaths: Int = lastMonth.finalDeaths - today.finalDeaths
-                        val wins: Int = lastMonth.wins - today.wins
-                        val losses: Int = lastMonth.losses - today.losses
+                        val finalKills: Double = (today.finalKills - lastMonth.finalKills).toDouble()
+                        val finalAssists: Double = (today.finalAssists - lastMonth.finalAssists).toDouble()
+                        val finalDeaths: Double = (today.finalDeaths - lastMonth.finalDeaths).toDouble()
+                        val wins: Double = (today.wins - lastMonth.wins).toDouble()
+                        val losses: Double = (today.losses - lastMonth.losses).toDouble()
 
                         // 处理后的数据
-                        val wlr: String = "%.2f".format(if (wins != 0 && losses == 0) {
-                            wins.toDouble()
+                        val wlr = String.format("%.2f", if (wins != 0.toDouble() && losses == 0.toDouble()) {
+                            wins
                         }else {
-                            (wins/losses).toDouble()
+                            wins/losses
                         })
 
-                        val fkdr: String = "%.2f".format(if (finalKills != 0 && finalDeaths == 0) {
-                            finalKills.toDouble()
+                        val fkdr: String = String.format("%.2f", if (finalKills != 0.toDouble() && finalDeaths == 0.toDouble()) {
+                            finalKills
                         }else {
-                            (finalKills/finalDeaths).toDouble()
+                            finalKills/finalDeaths
                         })
 
-                        val fkfafd: String = "%.2f".format(if (finalKills+finalAssists != 0 && finalDeaths == 0) {
-                            (finalKills+finalAssists).toDouble()
+                        val fkfafd: String = String.format("%.2f", if (finalKills+finalAssists != 0.toDouble() && finalDeaths == 0.toDouble()) {
+                            finalKills+finalAssists
                         }else {
-                            ((finalKills+finalAssists) / finalDeaths).toDouble()
+                            (finalKills+finalAssists) / finalDeaths
                         })
 
                         val msg = "=====mw小帮手=====\n".toPlainText() +
@@ -250,7 +268,12 @@ object MegaWallsCommand : CompositeCommand(
                         subject.sendMessage(msg)
 
                     } else {
-                        MegaWallsUtil.updateMegaWallsPlayerData(name)
+                        if (MegaWallsUtil.hasDataByDate(name, LocalDate.now())) {
+                            MegaWallsUtil.updateMegaWallsPlayerData(name)
+                        } else {
+                            MegaWallsUtil.writeDataByFirst(name)
+                        }
+
                         subject.sendMessage(
                             "=====小帮手=====\n".toPlainText() +
                                     "未找到每星期数据！请等待一个月后再试！".toPlainText()

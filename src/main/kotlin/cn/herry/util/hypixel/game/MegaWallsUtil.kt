@@ -1,5 +1,6 @@
 package cn.herry.util.hypixel.game
 
+import cn.herry.Helper
 import cn.herry.config.Config
 import cn.herry.util.hypixel.fks.MegaWallsPlayer
 import cn.herry.util.mongoDB.MongoUtil
@@ -9,6 +10,8 @@ import cn.hutool.json.JSONUtil
 import net.mamoe.mirai.message.data.toPlainText
 import org.bson.Document
 import java.time.LocalDate
+import java.util.*
+import kotlin.collections.ArrayList
 
 object MegaWallsUtil {
 
@@ -109,13 +112,13 @@ object MegaWallsUtil {
         val megaWallsPlayerData = getMegaWallsPlayerData(name)
         if (megaWallsPlayerData != null) {
             val document = Document("\$set", Document("name", megaWallsPlayerData.name)
-                .append("\$set", Document("rank", megaWallsPlayerData.rank))
-                .append("\$set", Document("date", megaWallsPlayerData.date))
-                .append("\$set", Document("finalKills", megaWallsPlayerData.finalKills))
-                .append("\$set", Document("finalAssists", megaWallsPlayerData.finalAssists))
-                .append("\$set", Document("finalDeaths", megaWallsPlayerData.finalDeaths))
-                .append("\$set", Document("wins", megaWallsPlayerData.wins))
-                .append("\$set", Document("losses", megaWallsPlayerData.losses)))
+                .append("rank", megaWallsPlayerData.rank)
+                .append("date", megaWallsPlayerData.date)
+                .append("finalKills", megaWallsPlayerData.finalKills)
+                .append("finalAssists", megaWallsPlayerData.finalAssists)
+                .append("finalDeaths", megaWallsPlayerData.finalDeaths)
+                .append("wins", megaWallsPlayerData.wins)
+                .append("losses", megaWallsPlayerData.losses))
 
             val iterator = MongoUtil.getDocuments("mw", "data").find().iterator()
             while (iterator.hasNext()) {
@@ -134,18 +137,25 @@ object MegaWallsUtil {
         var iterator = collections.find().iterator()
         while (iterator.hasNext()) {
             val document = iterator.next()
-            return document["name"] as String == name && document["date"] as String == date.toString()
+            if (document["name"] as String == name && document["date"] as String == date.toString()) {
+                return true
+            } else {
+                continue
+            }
         }
 
         return false
     }
 
     fun hasData(name: String): Boolean {
-        var collections = MongoUtil.getDocuments("mw", "data")
-        var iterator = collections.find().iterator()
+        val iterator = MongoUtil.getDocuments("mw", "data").find().iterator()
         while (iterator.hasNext()) {
             val document = iterator.next()
-            return document["name"] as String == name
+            if (document["name"] as String == name) {
+                return true
+            } else {
+                continue
+            }
         }
 
         return false
@@ -172,7 +182,7 @@ object MegaWallsUtil {
         var iterator = collections.find().iterator()
         while (iterator.hasNext()) {
             val document = iterator.next()
-            if (document["name"] as String == name && document["date"] as String == date.toString()) {
+            if ((document["name"] as String).equals(name,true) && document["date"] as String == date.toString()) {
                 return MegaWallsPlayer(document["name"] as String,
                     document["rank"] as String,
                     document["date"] as String,
