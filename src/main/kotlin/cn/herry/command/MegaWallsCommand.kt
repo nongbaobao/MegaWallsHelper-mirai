@@ -22,7 +22,6 @@ object MegaWallsCommand : CompositeCommand(
         val msg = "======mw小帮手======\n".toPlainText() +
                 "/mw count -- 查询目前mw游玩人数 (主模式和faceoff模式)\n".toPlainText() +
                 "/mw mwclass [id] -- 查询玩家mw职业信息\n".toPlainText() +
-                "/mw fks [id] [args] -- 查询玩家每日/每星期/每月/每年的FKDR信息".toPlainText() +
                 "======mw小帮手======".toPlainText()
 
         subject.sendMessage(msg)
