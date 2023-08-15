@@ -7,6 +7,3 @@
 [Hutools](https://hutool.cn/)\
 [OkHttp3](https://square.github.io/okhttp/)
 ---
-
-# 数据库
-[MongoDB](https://www.mongodb.com)
