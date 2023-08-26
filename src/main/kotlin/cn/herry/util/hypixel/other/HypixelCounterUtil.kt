@@ -10,6 +10,40 @@ object HypixelCounterUtil {
 
     private val publicApi: String = Config.apiKey
 
+    val bsgCounter: MessageChain
+        get() {
+            if (publicApi == "") {
+                return "======mw小帮手======\n".toPlainText() +
+                        "查询失败!\n".toPlainText() +
+                        "未填写apikey或者apikey无效！\n".toPlainText()
+            }
+
+            val json = JSONUtil.parseObj(WebUtil.getJson("https://api.hypixel.net/counts?key=$publicApi"))
+
+            var solo = 0
+            var teams = 0
+
+            if (json.getBool("success")) {
+                val BSG = json.getJSONObject("games").getJSONObject("SURVIVAL_GAMES")
+                if (BSG.getJSONObject("modes") != null) {
+                    val modes = BSG.getJSONObject("modes")
+
+                    if (modes.getInt("solo_normal") != null) {
+                        solo = modes.getInt("solo_normal")
+                    }
+
+                    if (modes.getInt("teams_normal") != null) {
+                        teams = modes.getInt("teams_normal")
+                    }
+                }
+            }
+
+
+            return "=====mw小帮手=====\n".toPlainText() +
+                    "| BSG solo: $solo\n".toPlainText() +
+                    "| BSG teams: $teams\n".toPlainText()
+        }
+
     val swCounter: MessageChain
         get() {
 
