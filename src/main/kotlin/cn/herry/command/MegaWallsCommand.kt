@@ -1,7 +1,7 @@
 package cn.herry.command
 
 import cn.herry.Helper
-import cn.herry.util.hypixel.game.MegaWallsUtil
+import cn.herry.util.hypixel.game.megawalls.MegaWallsUtil
 import cn.herry.util.other.MinecraftUtil
 import net.mamoe.mirai.console.command.CompositeCommand
 import net.mamoe.mirai.console.command.UserCommandSender
@@ -68,5 +68,19 @@ object MegaWallsCommand : CompositeCommand(
 
         subject.sendMessage(msg)
     }
+
+    @SubCommand("plancke")
+    suspend fun UserCommandSender.plancke(args: List<String>) {
+        when (args.size) {
+            1 -> {
+                TODO()
+            }
+
+            else -> {
+
+            }
+        }
+    }
+
 
 }

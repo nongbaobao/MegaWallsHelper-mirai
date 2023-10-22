@@ -1,4 +1,4 @@
-package cn.herry.util.hypixel.game
+package cn.herry.util.hypixel.game.megawalls
 
 import cn.herry.config.Config
 import cn.herry.util.other.WebUtil
@@ -42,4 +42,6 @@ object MegaWallsUtil {
 
             return intArrayOf(0, 0)
         }
+
+    fun getGeneralStats() {}
 }
