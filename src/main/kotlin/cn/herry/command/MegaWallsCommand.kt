@@ -1,6 +1,7 @@
 package cn.herry.command
 
 import cn.herry.Helper
+import cn.herry.command.MegaWallsCommand.stats
 import cn.herry.util.hypixel.game.megawalls.MegaWallsUtil
 import cn.herry.util.other.MinecraftUtil
 import net.mamoe.mirai.console.command.CompositeCommand
@@ -8,6 +9,7 @@ import net.mamoe.mirai.console.command.UserCommandSender
 import net.mamoe.mirai.contact.Contact.Companion.uploadImage
 import net.mamoe.mirai.message.data.Image
 import net.mamoe.mirai.message.data.Message
+import net.mamoe.mirai.message.data.buildMessageChain
 import net.mamoe.mirai.message.data.toPlainText
 import okhttp3.OkHttpClient
 import okhttp3.Request
@@ -69,18 +71,47 @@ object MegaWallsCommand : CompositeCommand(
         subject.sendMessage(msg)
     }
 
-    @SubCommand("plancke")
-    suspend fun UserCommandSender.plancke(args: List<String>) {
-        when (args.size) {
-            1 -> {
-                TODO()
-            }
+    @SubCommand("cp")
+    suspend fun UserCommandSender.cp(name: String) {}
 
-            else -> {
 
-            }
+    @SubCommand("stats")
+    suspend fun UserCommandSender.stats(name: String) {
+        if (!MinecraftUtil.hasUser(name)) {
+            subject.sendMessage(
+                "======mw小帮手======\n" +
+                        "查询失败!\n" +
+                        "未填写apikey或者apikey无效！\n" +
+                        "======mw小帮手======"
+            )
+            return
         }
+
+        val playerdata = MegaWallsUtil.getPlayerMegawallsStats(name)
+        if (playerdata != null) {
+            val msg = buildMessageChain {
+                "=====mw小帮手=====\n".toPlainText()
+                "player: $name\n".toPlainText()
+                "coins: ${playerdata.coins}\n".toPlainText()
+                "kills: ${playerdata.kills} | deaths: ${playerdata.deaths}\n".toPlainText()
+                "Final Kills: ${playerdata.finalKills} | Final Deaths: ${playerdata.finalDeaths}\n".toPlainText()
+                "K/D Ratio: ${playerdata.kdr} | FK/D Ratio: ${playerdata.fkdr}\n".toPlainText()
+                "Wins: ${playerdata.wins} | Losses: ${playerdata.losses}\n".toPlainText()
+                "Final Assists: ${playerdata.finalAssists} | FKA/D Ratio: ${playerdata.fkadr}".toPlainText()
+            }
+
+            subject.sendMessage(msg)
+        } else {
+            subject.sendMessage(
+                "======mw小帮手======\n" +
+                        "查询失败!\n" +
+                        "出现未知错误！\n" +
+                        "======mw小帮手======"
+            )
+        }
+
     }
+
 
 
 }

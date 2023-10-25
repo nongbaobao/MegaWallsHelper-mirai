@@ -1,12 +1,24 @@
 package cn.herry.util.hypixel.game.megawalls
 
 import cn.herry.config.Config
+import cn.herry.util.other.MinecraftUtil
 import cn.herry.util.other.WebUtil
 import cn.hutool.json.JSONUtil
 
 object MegaWallsUtil {
 
+
     private val publicApi: String = Config.apiKey
+
+    fun getPlayerMegawallsStats(name: String): MegaWallsStats? {
+        val mainObj = JSONUtil.parseObj(WebUtil.getJson("https://https://api.hypixel.net/player?key=$publicApi&uuid=${MinecraftUtil.getUUID(name)}"))
+        if (mainObj.getBool("success")) {
+            return MegaWallsStats(mainObj)
+        }
+
+
+        return null
+    }
 
     val mwCounter: IntArray?
         get() {
@@ -42,6 +54,4 @@ object MegaWallsUtil {
 
             return intArrayOf(0, 0)
         }
-
-    fun getGeneralStats() {}
 }

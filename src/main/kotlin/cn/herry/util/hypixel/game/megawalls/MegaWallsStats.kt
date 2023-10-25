@@ -1,44 +1,44 @@
 package cn.herry.util.hypixel.game.megawalls
 
 import cn.hutool.json.JSONObject
-import lombok.Getter
+import kotlinx.serialization.Serializable
 
 
-@Getter
+@Serializable
 class MegaWallsStats {
 
     var classpointsMap = LinkedHashMap<String, Array<Int>>()
-    var chosen_class: String? = null
-    var chosen_skin_class: String? = null
+    var chosenClass: String? = null
+    var chosenSkinClass: String? = null
     var coins = 0
     var wins = 0
     var losses = 0
     var kills = 0
     var deaths = 0
-    var final_kills = 0
-    var final_assists = 0
-    var final_deaths = 0
+    var finalKills = 0
+    var finalAssists = 0
+    var finalDeaths = 0
     var kdr = 0f
     var fkdr = 0f
     var wlr = 0f
     var fkadr = 0f
-    var total_classpoints = 0
+    var totalClasspoints = 0
 
     constructor(playerData: JSONObject) {
         val megawallsObj = playerData.getJSONObject("player")
             .getJSONObject("stats")
             .getJSONObject("walls3")
 
-        chosen_class = megawallsObj.getStr("chosen_class")
-        chosen_skin_class = megawallsObj.getStr("chosen_skin_$chosen_class")
+        chosenClass = megawallsObj.getStr("chosen_class")
+        chosenSkinClass = megawallsObj.getStr("chosen_skin_$chosenClass")
         coins = megawallsObj.getInt("coins")
         wins = megawallsObj.getInt("wins")
         losses = megawallsObj.getInt("losses")
         kills = megawallsObj.getInt("kills")
         deaths = megawallsObj.getInt("deaths")
-        final_kills = megawallsObj.getInt("final_kills")
-        final_assists = megawallsObj.getInt("final_assists")
-        final_deaths = megawallsObj.getInt("final_deaths")
+        finalKills = megawallsObj.getInt("final_kills")
+        finalAssists = megawallsObj.getInt("final_assists")
+        finalDeaths = megawallsObj.getInt("final_deaths")
 
         kdr = if (deaths != 0) {
             kills.toFloat() / deaths.toFloat()
@@ -46,10 +46,10 @@ class MegaWallsStats {
             kills.toFloat()
         }
 
-        fkdr = if (final_deaths != 0) {
-            final_kills.toFloat() / final_deaths.toFloat()
+        fkdr = if (finalDeaths != 0) {
+            finalKills.toFloat() / finalDeaths.toFloat()
         } else {
-            final_kills.toFloat()
+            finalKills.toFloat()
         }
 
         wlr = if (losses != 0) {
@@ -58,10 +58,10 @@ class MegaWallsStats {
             wins.toFloat()
         }
 
-        fkadr = if (final_deaths != 0) {
-            (final_kills + final_assists).toFloat() / final_deaths.toFloat()
+        fkadr = if (finalDeaths != 0) {
+            (finalKills + finalAssists).toFloat() / finalDeaths.toFloat()
         } else {
-            (final_kills + final_assists).toFloat()
+            (finalKills + finalAssists).toFloat()
         }
 
         val classesdata = megawallsObj.getJSONObject("classes")
@@ -74,7 +74,7 @@ class MegaWallsStats {
                         megawallsObj.getInt("${className}_final_assists_standard") +
                         megawallsObj.getInt("${className}_wins_standard") * 10
 
-                total_classpoints += classpoints
+                totalClasspoints += classpoints
                 classpointsMap[className] = arrayOf(prestige, classpoints)
             }
         }
