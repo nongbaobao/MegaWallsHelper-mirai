@@ -8,8 +8,6 @@ import kotlinx.serialization.Serializable
 class MegaWallsStats {
 
     var classpointsMap = LinkedHashMap<String, Array<Int>>()
-    var chosenClass: String? = null
-    var chosenSkinClass: String? = null
     var coins = 0
     var wins = 0
     var losses = 0
@@ -29,8 +27,6 @@ class MegaWallsStats {
             .getJSONObject("stats")
             .getJSONObject("walls3")
 
-        chosenClass = megawallsObj.getStr("chosen_class")
-        chosenSkinClass = megawallsObj.getStr("chosen_skin_$chosenClass")
         coins = megawallsObj.getInt("coins")
         wins = megawallsObj.getInt("wins")
         losses = megawallsObj.getInt("losses")

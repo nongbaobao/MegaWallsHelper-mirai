@@ -1,7 +1,7 @@
 package cn.herry.command
 
 import cn.herry.Helper
-import cn.herry.command.MegaWallsCommand.stats
+import cn.herry.util.hypixel.game.megawalls.MWClass
 import cn.herry.util.hypixel.game.megawalls.MegaWallsUtil
 import cn.herry.util.other.MinecraftUtil
 import net.mamoe.mirai.console.command.CompositeCommand
@@ -13,6 +13,8 @@ import net.mamoe.mirai.message.data.buildMessageChain
 import net.mamoe.mirai.message.data.toPlainText
 import okhttp3.OkHttpClient
 import okhttp3.Request
+import kotlin.math.min
+
 
 object MegaWallsCommand : CompositeCommand(
     Helper,
@@ -72,7 +74,59 @@ object MegaWallsCommand : CompositeCommand(
     }
 
     @SubCommand("cp")
-    suspend fun UserCommandSender.cp(name: String) {}
+    suspend fun UserCommandSender.cp(name: String) {
+        if (!MinecraftUtil.hasUser(name)) {
+            subject.sendMessage(
+                "======mw小帮手======\n" +
+                        "查询失败!\n" +
+                        "未填写apikey或者apikey无效！\n" +
+                        "======mw小帮手======"
+            )
+            return
+        }
+
+        val playerdata = MegaWallsUtil.getPlayerMegawallsStats(name)!!
+
+        var cpMissing = MWClass.values().size * 2000
+        var coinsMissing: Int = MWClass.values().size * 2000000 - playerdata.coins
+        for ((_, value1) in playerdata.classpointsMap.entries) {
+            cpMissing -= min(value1[1], 2000)
+            val prestige = value1[0]
+            if (prestige == 4) {
+                coinsMissing -= 2000000
+            } else if (prestige == 3) {
+                coinsMissing -= 1250000
+            } else if (prestige == 2) {
+                coinsMissing -= 750000
+            } else if (prestige == 1) {
+                coinsMissing -= 250000
+            }
+        }
+        coinsMissing = Math.max(0, coinsMissing)
+
+        val msg = buildMessageChain {
+            "=====mw小帮手=====\n".toPlainText()
+            "player: $name - MW ClassPoints\n".toPlainText()
+            for (value in MWClass.values()) {
+                val className = value.name
+                val prestige = when (playerdata.classpointsMap[className.lowercase()]!![0]) {
+                    1 -> "PI"
+                    2 -> "PII"
+                    3 -> "PIII"
+                    4 -> "PIV"
+                    else -> ""
+                }
+
+                val cp = playerdata.classpointsMap[className.lowercase()]!![1]
+
+                "$className $prestige: $cp\n".toPlainText()
+            }
+            "Total: ${playerdata.totalClasspoints}\n".toPlainText()
+            "Missing: $cpMissing, $coinsMissing".toPlainText()
+        }
+
+        subject.sendMessage(msg)
+    }
 
 
     @SubCommand("stats")
