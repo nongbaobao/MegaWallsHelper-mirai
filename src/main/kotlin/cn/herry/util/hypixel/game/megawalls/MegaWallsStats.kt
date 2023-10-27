@@ -25,7 +25,7 @@ class MegaWallsStats {
     constructor(playerData: JSONObject) {
         val megawallsObj = playerData.getJSONObject("player")
             .getJSONObject("stats")
-            .getJSONObject("walls3")
+            .getJSONObject("Walls3")
 
         coins = megawallsObj.getInt("coins")
         wins = megawallsObj.getInt("wins")
@@ -65,10 +65,14 @@ class MegaWallsStats {
             for (mwclass in MWClass.values()) {
                 val className = mwclass.name.lowercase()
                 val classObj = classesdata.getJSONObject(className)
-                val prestige = classObj.getInt("prestige")
-                val classpoints = megawallsObj.getInt("${className}_final_kills_standard") +
-                        megawallsObj.getInt("${className}_final_assists_standard") +
-                        megawallsObj.getInt("${className}_wins_standard") * 10
+                val prestige = if (classObj.getInt("prestige") != null) {
+                    classObj.getInt("prestige")
+                } else {
+                    0
+                }
+                val classpoints = (megawallsObj.getInt("${className}_final_kills_standard") ?: 0) +
+                        (megawallsObj.getInt("${className}_final_assists_standard") ?: 0) +
+                        (megawallsObj.getInt("${className}_wins_standard") ?: 0) * 10
 
                 totalClasspoints += classpoints
                 classpointsMap[className] = arrayOf(prestige, classpoints)

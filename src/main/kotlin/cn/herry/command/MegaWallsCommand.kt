@@ -105,10 +105,11 @@ object MegaWallsCommand : CompositeCommand(
         coinsMissing = Math.max(0, coinsMissing)
 
         val msg = buildMessageChain {
-            "=====mw小帮手=====\n".toPlainText()
-            "player: $name - MW ClassPoints\n".toPlainText()
+            +"=====mw小帮手=====\n".toPlainText()
+            +"player: $name\n".toPlainText()
             for (value in MWClass.values()) {
                 val className = value.name
+                val realName = value.className
                 val prestige = when (playerdata.classpointsMap[className.lowercase()]!![0]) {
                     1 -> "PI"
                     2 -> "PII"
@@ -119,10 +120,10 @@ object MegaWallsCommand : CompositeCommand(
 
                 val cp = playerdata.classpointsMap[className.lowercase()]!![1]
 
-                "$className $prestige: $cp\n".toPlainText()
+                +"$realName $prestige: $cp\n".toPlainText()
             }
-            "Total: ${playerdata.totalClasspoints}\n".toPlainText()
-            "Missing: $cpMissing, $coinsMissing".toPlainText()
+            +"Total: ${playerdata.totalClasspoints}\n".toPlainText()
+            +"Missing: $cpMissing, $coinsMissing".toPlainText()
         }
 
         subject.sendMessage(msg)
@@ -144,14 +145,14 @@ object MegaWallsCommand : CompositeCommand(
         val playerdata = MegaWallsUtil.getPlayerMegawallsStats(name)
         if (playerdata != null) {
             val msg = buildMessageChain {
-                "=====mw小帮手=====\n".toPlainText()
-                "player: $name\n".toPlainText()
-                "coins: ${playerdata.coins}\n".toPlainText()
-                "kills: ${playerdata.kills} | deaths: ${playerdata.deaths}\n".toPlainText()
-                "Final Kills: ${playerdata.finalKills} | Final Deaths: ${playerdata.finalDeaths}\n".toPlainText()
-                "K/D Ratio: ${playerdata.kdr} | FK/D Ratio: ${playerdata.fkdr}\n".toPlainText()
-                "Wins: ${playerdata.wins} | Losses: ${playerdata.losses}\n".toPlainText()
-                "Final Assists: ${playerdata.finalAssists} | FKA/D Ratio: ${playerdata.fkadr}".toPlainText()
+                +"=====mw小帮手=====\n".toPlainText()
+                +"player: $name\n".toPlainText()
+                +"coins: ${playerdata.coins}\n".toPlainText()
+                +"kills: ${playerdata.kills} | deaths: ${playerdata.deaths}\n".toPlainText()
+                +"Final Kills: ${playerdata.finalKills} | Final Deaths: ${playerdata.finalDeaths}\n".toPlainText()
+                +"K/D Ratio: ${"%.2f".format(playerdata.kdr)} | FK/D Ratio: ${"%.2f".format(playerdata.fkdr)}\n".toPlainText()
+                +"Wins: ${playerdata.wins} | Losses: ${playerdata.losses}\n".toPlainText()
+                +"Final Assists: ${playerdata.finalAssists} | FKA/D Ratio: ${"%.2f".format(playerdata.fkadr)}".toPlainText()
             }
 
             subject.sendMessage(msg)

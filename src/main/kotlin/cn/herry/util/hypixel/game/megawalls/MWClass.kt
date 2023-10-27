@@ -1,6 +1,6 @@
 package cn.herry.util.hypixel.game.megawalls
 
-enum class MWClass(className: String) {
+enum class MWClass(val className: String) {
 
     ARCANIST("Arcanist"),
     ASSASSIN("Assassin"),

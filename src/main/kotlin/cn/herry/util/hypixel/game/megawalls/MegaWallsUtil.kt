@@ -11,11 +11,10 @@ object MegaWallsUtil {
     private val publicApi: String = Config.apiKey
 
     fun getPlayerMegawallsStats(name: String): MegaWallsStats? {
-        val mainObj = JSONUtil.parseObj(WebUtil.getJson("https://https://api.hypixel.net/player?key=$publicApi&uuid=${MinecraftUtil.getUUID(name)}"))
+        val mainObj = JSONUtil.parseObj(WebUtil.getJson("https://api.hypixel.net/player?key=$publicApi&uuid=${MinecraftUtil.getUUID(name)}"))
         if (mainObj.getBool("success")) {
             return MegaWallsStats(mainObj)
         }
-
 
         return null
     }
