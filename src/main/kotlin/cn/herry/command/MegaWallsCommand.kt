@@ -110,6 +110,11 @@ object MegaWallsCommand : CompositeCommand(
             for (value in MWClass.values()) {
                 val className = value.name
                 val realName = value.className
+
+                if (playerdata.classpointsMap[className.lowercase()] == null) {
+                    continue
+                }
+
                 val prestige = when (playerdata.classpointsMap[className.lowercase()]!![0]) {
                     1 -> "PI"
                     2 -> "PII"

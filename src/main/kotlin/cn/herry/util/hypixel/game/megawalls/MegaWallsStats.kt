@@ -64,7 +64,11 @@ class MegaWallsStats {
         if (classesdata != null) {
             for (mwclass in MWClass.values()) {
                 val className = mwclass.name.lowercase()
-                val classObj = classesdata.getJSONObject(className)
+                val classObj = if (classesdata.getJSONObject(className) != null) {
+                    classesdata.getJSONObject(className)
+                } else {
+                    continue
+                }
                 val prestige = if (classObj.getInt("prestige") != null) {
                     classObj.getInt("prestige")
                 } else {
