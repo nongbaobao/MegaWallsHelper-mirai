@@ -1,30 +1,45 @@
 package cn.herry.util.hypixel.game.megawalls
 
-enum class MWClass(val className: String) {
+enum class MWClass(val className: String, val tagLowerCase: String) {
 
-    ARCANIST("Arcanist"),
-    ASSASSIN("Assassin"),
-    AUTOMATON("Automaton"),
-    BLAZE("Blaze"),
-    COW("Cow"),
-    CREEPER("Creeper"),
-    DREADLORD("Dreadlord"),
-    ENDERMAN("Enderman"),
-    GOLEM("Golem"),
-    HEROBRINE("Herobrine"),
-    HUNTER("Hunter"),
-    MOLEMAN("Moleman"),
-    PHOENIX("Phoenix"),
-    PIGMAN("Pigman"),
-    PIRATE("Pirate"),
-    RENEGADE("Renegade"),
-    SHAMAN("Shaman"),
-    SHARK("Shark"),
-    SKELETON("Skeleton"),
-    SNOWMAN("Snowman"),
-    SPIDER("Spider"),
-    SQUID("Squid"),
-    WEREWOLF("Werewolf"),
-    ZOMBIE("Zombie");
+    ARCANIST("Arcanist", "arc"),
+    ASSASSIN("Assassin", "asn"),
+    AUTOMATON("Automaton", "atn"),
+    BLAZE("Blaze", "bla"),
+    COW("Cow", "cow"),
+    CREEPER("Creeper", "cre"),
+    DREADLORD("Dreadlord", "dre"),
+    ENDERMAN("Enderman", "end"),
+    GOLEM("Golem", "gol"),
+    HEROBRINE("Herobrine", "hbr"),
+    HUNTER("Hunter", "hun"),
+    MOLEMAN("Moleman", "mol"),
+    PHOENIX("Phoenix", "phx"),
+    PIGMAN("Pigman", "pig"),
+    PIRATE("Pirate", "pir"),
+    RENEGADE("Renegade", "ren"),
+    SHAMAN("Shaman", "sha"),
+    SHARK("Shark", "srk"),
+    SKELETON("Skeleton", "ske"),
+    SNOWMAN("Snowman", "sno"),
+    SPIDER("Spider", "spi"),
+    SQUID("Squid", "squ"),
+    WEREWOLF("Werewolf", "wer"),
+    ZOMBIE("Zombie", "zom");
+
+    companion object {
+        fun fromTagOrName(nameIn: String): MWClass? {
+            for (mwClass in values()) {
+                if (nameIn.equals(mwClass.tagLowerCase, ignoreCase = true) || nameIn.equals(
+                        mwClass.className,
+                        ignoreCase = true
+                    )
+                ) {
+                    return mwClass
+                }
+            }
+            return null
+        }
+    }
 
 }

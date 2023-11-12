@@ -19,6 +19,15 @@ object MegaWallsUtil {
         return null
     }
 
+    fun getPlayerMegawallsClassStats(name: String, classss: String): MegaWallsClassStats? {
+        val mainObj = JSONUtil.parseObj(WebUtil.getJson("https://api.hypixel.net/player?key=$publicApi&uuid=${MinecraftUtil.getUUID(name)}"))
+        if (mainObj.getBool("success")) {
+            return MegaWallsClassStats(mainObj, classss)
+        }
+
+        return null
+    }
+
     val mwCounter: IntArray?
         get() {
 

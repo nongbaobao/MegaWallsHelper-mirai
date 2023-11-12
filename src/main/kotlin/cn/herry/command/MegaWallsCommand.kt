@@ -134,6 +134,33 @@ object MegaWallsCommand : CompositeCommand(
         subject.sendMessage(msg)
     }
 
+    @SubCommand("cstats")
+    suspend fun UserCommandSender.cStats(name: String, classs: String) {
+        if (!MinecraftUtil.hasUser(name)) {
+            subject.sendMessage(
+                "======mw小帮手======\n" +
+                        "查询失败!\n" +
+                        "未填写apikey无效或没有此玩家！\n" +
+                        "======mw小帮手======"
+            )
+            return
+        }
+
+        val real_class = MWClass.fromTagOrName(classs)
+        if (real_class == null) {
+            subject.sendMessage(
+                "======mw小帮手======\n" +
+                "查询失败!未找到此职业!\n"
+            )
+            return
+        }
+
+        val classData = MegaWallsUtil.getPlayerMegawallsClassStats(name, classs)
+        if (classData != null) {
+
+        }
+    }
+
 
     @SubCommand("stats")
     suspend fun UserCommandSender.stats(name: String) {
@@ -141,7 +168,7 @@ object MegaWallsCommand : CompositeCommand(
             subject.sendMessage(
                 "======mw小帮手======\n" +
                         "查询失败!\n" +
-                        "未填写apikey或者apikey无效！\n" +
+                        "未填写apikey无效或没有此玩家！\n" +
                         "======mw小帮手======"
             )
             return
