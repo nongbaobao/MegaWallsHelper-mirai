@@ -10,6 +10,17 @@ object MegaWallsUtil {
 
     private val publicApi: String = Config.apiKey
 
+    fun intToRoman(number: Int): String {
+        return when (number) {
+            1 -> "I"
+            2 -> "II"
+            3 -> "III"
+            4 -> "IV"
+            5 -> "V"
+            else -> number.toString()
+        }
+    }
+
     fun getPlayerMegawallsStats(name: String): MegaWallsStats? {
         val mainObj = JSONUtil.parseObj(WebUtil.getJson("https://api.hypixel.net/player?key=$publicApi&uuid=${MinecraftUtil.getUUID(name)}"))
         if (mainObj.getBool("success")) {

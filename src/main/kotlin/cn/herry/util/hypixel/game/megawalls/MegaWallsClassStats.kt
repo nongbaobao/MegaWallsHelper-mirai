@@ -6,40 +6,40 @@ import kotlin.math.max
 
 class MegaWallsClassStats {
 
-    private var classname: String? = null
-    private var chosenSkinClass: String? = null
+    var classname: String? = null
+    var chosenSkinClass: String? = null
 
     // in the mwdata
-    private var coins = 0
-    private var classnameKills = 0
-    private var classnameFinalAssists = 0
-    private var classnameDeaths = 0
-    private var classnameWins = 0
-    private var classnameLosses = 0
-    private var classnameFinalKills = 0
-    private var classnameFinalDeaths = 0
-    private var classnameTimePlayed = 0
+    var coins = 0
+    var classnameKills = 0
+    var classnameFinalAssists = 0
+    var classnameDeaths = 0
+    var classnameWins = 0
+    var classnameLosses = 0
+    var classnameFinalKills = 0
+    var classnameFinalDeaths = 0
+    var classnameTimePlayed = 0
 
     // to compute
-    private var kdr = 0f
-    private var fkdr = 0f
-    private var wlr = 0f
-    private var fkadr = 0f
-    private var gamesPlayed = 0
-    private var fkpergame = 0f
-    private var classnameFinalAssistsStandard = 0
-    private var classpoints = 0
+    var kdr = 0f
+    var fkdr = 0f
+    var wlr = 0f
+    var fkadr = 0f
+    var gamesPlayed = 0
+    var fkpergame = 0f
+    var classnameFinalAssistsStandard = 0
+    var classpoints = 0
 
     // in the mwdata -> classes -> classname
-    private var unlocked = false
-    private var skillLevelA = 1 // ability
-    private var skillLevelB = 1 // passive 1
-    private var skillLevelC = 1 // passive 2
-    private var skillLevelD = 1 // kit
-    private var skillLevelG = 1 // gathering
+    var unlocked = false
+    var skillLevelA = 1 // ability
+    var skillLevelB = 1 // passive 1
+    var skillLevelC = 1 // passive 2
+    var skillLevelD = 1 // kit
+    var skillLevelG = 1 // gathering
 
-    private var prestige = 0
-    private var enderChestRows = 3
+    var prestige = 0
+    var enderChestRows = 3
 
     constructor(playerData: JSONObject?, classnameIn: String) {
         if (playerData == null) {
@@ -96,7 +96,7 @@ class MegaWallsClassStats {
         gamesPlayed = classnameWins + classnameLosses
         fkpergame = if (gamesPlayed != 0) {
             classnameFinalKills.toFloat() / gamesPlayed.toFloat()
-        }else {
+        } else {
             classnameFinalKills.toFloat()
         }
 

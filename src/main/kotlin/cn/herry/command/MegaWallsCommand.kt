@@ -146,8 +146,8 @@ object MegaWallsCommand : CompositeCommand(
             return
         }
 
-        val real_class = MWClass.fromTagOrName(classs)
-        if (real_class == null) {
+        val realClass = MWClass.fromTagOrName(classs)
+        if (realClass == null) {
             subject.sendMessage(
                 "======mw小帮手======\n" +
                 "查询失败!未找到此职业!\n"
@@ -155,9 +155,24 @@ object MegaWallsCommand : CompositeCommand(
             return
         }
 
-        val classData = MegaWallsUtil.getPlayerMegawallsClassStats(name, classs)
+        val classData = MegaWallsUtil.getPlayerMegawallsClassStats(name, realClass.className)
         if (classData != null) {
+            val msg = buildMessageChain {
+                +"=====mw小帮手=====\n".toPlainText()
+                +"player: $name -- ${realClass.className} Stats\n".toPlainText()
+                +"Kills: ${classData.classnameKills} | Deaths: ${classData.classnameDeaths} \n".toPlainText()
+                +"Final Kills: ${classData.classnameFinalKills} | Final Deaths: ${classData.classnameFinalDeaths}\n".toPlainText()
+                +"K/D Ratio: ${"%.2f".format(classData.kdr)} | FK/D Ratio: ${"%.2f".format(classData.fkdr)}\n".toPlainText()
+                +"Wins: ${classData.classnameWins} | Losses: ${classData.classnameLosses}\n".toPlainText()
+                +"Final Assists: ${classData.classnameFinalAssists} | FKA/D Ratio: ${"%.2f".format(classData.fkadr)}".toPlainText()
+                +"Games Played: ${classData.gamesPlayed} | FK/game: ${classData.fkpergame}".toPlainText()
+                +"Classpoints: ${classData.classpoints} | PlayTime: ${classData.classnameTimePlayed}".toPlainText()
+                +"Kit: ${MegaWallsUtil.intToRoman(classData.skillLevelA)}  ${MegaWallsUtil.intToRoman(classData.skillLevelB)}  ${MegaWallsUtil.intToRoman(classData.skillLevelC)}  ${MegaWallsUtil.intToRoman(classData.skillLevelD)}  ${MegaWallsUtil.intToRoman(classData.skillLevelG)}".toPlainText()
+                +"Prestige: ${MegaWallsUtil.intToRoman(classData.prestige)} Echest rows: ${classData.enderChestRows}".toPlainText()
+                +"Selected skin: ${classData.chosenSkinClass}".toPlainText()
+            }
 
+            subject.sendMessage(msg)
         }
     }
 
