@@ -164,7 +164,7 @@ object MegaWallsCommand : CompositeCommand(
                 +"Final Kills: ${classData.classnameFinalKills} | Final Deaths: ${classData.classnameFinalDeaths}\n".toPlainText()
                 +"K/D Ratio: ${"%.2f".format(classData.kdr)} | FK/D Ratio: ${"%.2f".format(classData.fkdr)}\n".toPlainText()
                 +"Wins: ${classData.classnameWins} | Losses: ${classData.classnameLosses}\n".toPlainText()
-                +"Final Assists: ${classData.classnameFinalAssists} | FKA/D Ratio: ${"%.2f".format(classData.fkadr)}".toPlainText()
+                +"Final Assists: ${classData.classnameFinalAssists} | FKA/D Ratio: ${"%.2f".format(classData.fkadr)}\n".toPlainText()
                 +"Games Played: ${classData.gamesPlayed} | FK/game: ${"%.2f".format(classData.fkpergame)}\n".toPlainText()
                 +"Classpoints: ${classData.classpoints} | PlayTime: ${classData.classnameTimePlayed}\n".toPlainText()
                 +"Kit: ${MegaWallsUtil.intToRoman(classData.skillLevelA)}  ${MegaWallsUtil.intToRoman(classData.skillLevelB)}  ${MegaWallsUtil.intToRoman(classData.skillLevelC)}  ${MegaWallsUtil.intToRoman(classData.skillLevelD)}  ${MegaWallsUtil.intToRoman(classData.skillLevelG)}\n".toPlainText()
