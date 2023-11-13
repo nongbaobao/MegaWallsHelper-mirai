@@ -108,7 +108,7 @@ class MegaWallsClassStats {
         skillLevelC = max(classObj.getInt("skill_level_c"), 1)
         skillLevelD = max(classObj.getInt("skill_level_d"), 1)
         skillLevelG = max(classObj.getInt("skill_level_g"), 1)
-        prestige = classObj.getInt("prestige")
+        prestige = classObj.getInt("prestige")?: 0
         enderChestRows = max(classObj.getInt("enderchest_rows"), 3)
 
     }
