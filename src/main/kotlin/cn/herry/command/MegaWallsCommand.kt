@@ -134,51 +134,8 @@ object MegaWallsCommand : CompositeCommand(
         subject.sendMessage(msg)
     }
 
-    @SubCommand("cstats")
-    suspend fun UserCommandSender.cStats(name: String, classs: String) {
-        if (!MinecraftUtil.hasUser(name)) {
-            subject.sendMessage(
-                "======mw小帮手======\n" +
-                        "查询失败!\n" +
-                        "未填写apikey无效或没有此玩家！\n" +
-                        "======mw小帮手======"
-            )
-            return
-        }
-
-        val realClass = MWClass.fromTagOrName(classs)
-        if (realClass == null) {
-            subject.sendMessage(
-                "======mw小帮手======\n" +
-                "查询失败!未找到此职业!\n"
-            )
-            return
-        }
-
-        val classData = MegaWallsUtil.getPlayerMegawallsClassStats(name, realClass.className)
-        if (classData != null) {
-            val msg = buildMessageChain {
-                +"=====mw小帮手=====\n".toPlainText()
-                +"player: $name -- ${realClass.className} Stats\n".toPlainText()
-                +"Kills: ${classData.classnameKills} | Deaths: ${classData.classnameDeaths} \n".toPlainText()
-                +"Final Kills: ${classData.classnameFinalKills} | Final Deaths: ${classData.classnameFinalDeaths}\n".toPlainText()
-                +"K/D Ratio: ${"%.2f".format(classData.kdr)} | FK/D Ratio: ${"%.2f".format(classData.fkdr)}\n".toPlainText()
-                +"Wins: ${classData.classnameWins} | Losses: ${classData.classnameLosses}\n".toPlainText()
-                +"Final Assists: ${classData.classnameFinalAssists} | FKA/D Ratio: ${"%.2f".format(classData.fkadr)}\n".toPlainText()
-                +"Games Played: ${classData.gamesPlayed} | FK/game: ${"%.2f".format(classData.fkpergame)}\n".toPlainText()
-                +"Classpoints: ${classData.classpoints} | PlayTime: ${classData.classnameTimePlayed}\n".toPlainText()
-                +"Kit: ${MegaWallsUtil.intToRoman(classData.skillLevelA)}  ${MegaWallsUtil.intToRoman(classData.skillLevelB)}  ${MegaWallsUtil.intToRoman(classData.skillLevelC)}  ${MegaWallsUtil.intToRoman(classData.skillLevelD)}  ${MegaWallsUtil.intToRoman(classData.skillLevelG)}\n".toPlainText()
-                +"Prestige: ${MegaWallsUtil.intToRoman(classData.prestige)} Echest rows: ${classData.enderChestRows}\n".toPlainText()
-                +"Selected skin: ${classData.chosenSkinClass}".toPlainText()
-            }
-
-            subject.sendMessage(msg)
-        }
-    }
-
-
     @SubCommand("stats")
-    suspend fun UserCommandSender.stats(name: String) {
+    suspend fun UserCommandSender.stats(name: String, classs: String = "all") {
         if (!MinecraftUtil.hasUser(name)) {
             subject.sendMessage(
                 "======mw小帮手======\n" +
@@ -189,29 +146,59 @@ object MegaWallsCommand : CompositeCommand(
             return
         }
 
-        val playerdata = MegaWallsUtil.getPlayerMegawallsStats(name)
-        if (playerdata != null) {
-            val msg = buildMessageChain {
-                +"=====mw小帮手=====\n".toPlainText()
-                +"player: $name\n".toPlainText()
-                +"coins: ${playerdata.coins}\n".toPlainText()
-                +"kills: ${playerdata.kills} | deaths: ${playerdata.deaths}\n".toPlainText()
-                +"Final Kills: ${playerdata.finalKills} | Final Deaths: ${playerdata.finalDeaths}\n".toPlainText()
-                +"K/D Ratio: ${"%.2f".format(playerdata.kdr)} | FK/D Ratio: ${"%.2f".format(playerdata.fkdr)}\n".toPlainText()
-                +"Wins: ${playerdata.wins} | Losses: ${playerdata.losses}\n".toPlainText()
-                +"Final Assists: ${playerdata.finalAssists} | FKA/D Ratio: ${"%.2f".format(playerdata.fkadr)}".toPlainText()
+        if (classs != "all") {
+            val realClass = MWClass.fromTagOrName(classs)
+            if (realClass == null) {
+                subject.sendMessage(
+                    "======mw小帮手======\n" +
+                            "查询失败!未找到此职业!\n"
+                )
+                return
             }
 
-            subject.sendMessage(msg)
-        } else {
-            subject.sendMessage(
-                "======mw小帮手======\n" +
-                        "查询失败!\n" +
-                        "出现未知错误！\n" +
-                        "======mw小帮手======"
-            )
-        }
+            val classData = MegaWallsUtil.getPlayerMegawallsClassStats(name, realClass.className)
+            if (classData != null) {
+                val msg = buildMessageChain {
+                    +"=====mw小帮手=====\n".toPlainText()
+                    +"player: $name -- ${realClass.className} Stats\n".toPlainText()
+                    +"Kills: ${classData.classnameKills} | Deaths: ${classData.classnameDeaths} \n".toPlainText()
+                    +"Final Kills: ${classData.classnameFinalKills} | Final Deaths: ${classData.classnameFinalDeaths}\n".toPlainText()
+                    +"K/D Ratio: ${"%.2f".format(classData.kdr)} | FK/D Ratio: ${"%.2f".format(classData.fkdr)}\n".toPlainText()
+                    +"Wins: ${classData.classnameWins} | Losses: ${classData.classnameLosses}\n".toPlainText()
+                    +"Final Assists: ${classData.classnameFinalAssists} | FKA/D Ratio: ${"%.2f".format(classData.fkadr)}\n".toPlainText()
+                    +"Games Played: ${classData.gamesPlayed} | FK/game: ${"%.2f".format(classData.fkpergame)}\n".toPlainText()
+                    +"Classpoints: ${classData.classpoints} | PlayTime: ${classData.classnameTimePlayed}\n".toPlainText()
+                    +"Kit: ${MegaWallsUtil.intToRoman(classData.skillLevelA)}  ${MegaWallsUtil.intToRoman(classData.skillLevelB)}  ${MegaWallsUtil.intToRoman(classData.skillLevelC)}  ${MegaWallsUtil.intToRoman(classData.skillLevelD)}  ${MegaWallsUtil.intToRoman(classData.skillLevelG)}\n".toPlainText()
+                    +"Prestige: ${MegaWallsUtil.intToRoman(classData.prestige)} Echest rows: ${classData.enderChestRows}\n".toPlainText()
+                    +"Selected skin: ${classData.chosenSkinClass}".toPlainText()
+                }
 
+                subject.sendMessage(msg)
+            }
+        } else {
+            val playerdata = MegaWallsUtil.getPlayerMegawallsStats(name)
+            if (playerdata != null) {
+                val msg = buildMessageChain {
+                    +"=====mw小帮手=====\n".toPlainText()
+                    +"player: $name\n".toPlainText()
+                    +"coins: ${playerdata.coins}\n".toPlainText()
+                    +"kills: ${playerdata.kills} | deaths: ${playerdata.deaths}\n".toPlainText()
+                    +"Final Kills: ${playerdata.finalKills} | Final Deaths: ${playerdata.finalDeaths}\n".toPlainText()
+                    +"K/D Ratio: ${"%.2f".format(playerdata.kdr)} | FK/D Ratio: ${"%.2f".format(playerdata.fkdr)}\n".toPlainText()
+                    +"Wins: ${playerdata.wins} | Losses: ${playerdata.losses}\n".toPlainText()
+                    +"Final Assists: ${playerdata.finalAssists} | FKA/D Ratio: ${"%.2f".format(playerdata.fkadr)}".toPlainText()
+                }
+
+                subject.sendMessage(msg)
+            } else {
+                subject.sendMessage(
+                    "======mw小帮手======\n" +
+                            "查询失败!\n" +
+                            "出现未知错误！\n" +
+                            "======mw小帮手======"
+                )
+            }
+        }
     }
 
 
