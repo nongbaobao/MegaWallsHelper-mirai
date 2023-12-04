@@ -102,7 +102,7 @@ class MegaWallsClassStats {
 
         val classesData = megawallsObj.getJSONObject("classes") ?: return
         val classObj = classesData.getJSONObject(classname) ?: return
-        unlocked = classObj.getBool("unlocked")
+        unlocked = classObj.getBool("unlocked")?: false
         skillLevelA = max(classObj.getInt("skill_level_a")?: 0, 1)
         skillLevelB = max(classObj.getInt("skill_level_b")?: 0, 1)
         skillLevelC = max(classObj.getInt("skill_level_c")?: 0, 1)
