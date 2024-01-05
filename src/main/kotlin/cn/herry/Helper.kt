@@ -20,7 +20,7 @@ object Helper : KotlinPlugin(
         logger.info { "Plugin Loaded" }
 
         Config.reload()
-        ConsoleCommand.register()
+        PermissionCommand.register()
         MegaWallsCommand.register()
         ExcapesCommand.register()
         UHCCommand.register()

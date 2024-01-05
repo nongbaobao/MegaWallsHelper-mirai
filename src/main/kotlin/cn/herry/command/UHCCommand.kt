@@ -1,7 +1,7 @@
 package cn.herry.command
 
 import cn.herry.Helper
-import cn.herry.util.hypixel.game.UHCUtil
+import cn.herry.util.hypixel.game.uhc.UHCUtil
 import net.mamoe.mirai.console.command.CompositeCommand
 import net.mamoe.mirai.console.command.UserCommandSender
 import net.mamoe.mirai.message.data.toPlainText

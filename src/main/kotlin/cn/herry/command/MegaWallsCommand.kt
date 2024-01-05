@@ -102,7 +102,7 @@ object MegaWallsCommand : CompositeCommand(
                 coinsMissing -= 250000
             }
         }
-        coinsMissing = Math.max(0, coinsMissing)
+        coinsMissing = 0.coerceAtLeast(coinsMissing)
 
         val msg = buildMessageChain {
             +"=====mw小帮手=====\n".toPlainText()
