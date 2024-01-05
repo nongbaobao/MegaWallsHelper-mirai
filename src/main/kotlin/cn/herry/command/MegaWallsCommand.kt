@@ -176,17 +176,17 @@ object MegaWallsCommand : CompositeCommand(
                 subject.sendMessage(msg)
             }
         } else {
-            val playerdata = MegaWallsUtil.getPlayerMegawallsStats(name)
-            if (playerdata != null) {
+            val playerData = MegaWallsUtil.getPlayerMegawallsStats(name)
+            if (playerData != null) {
                 val msg = buildMessageChain {
                     +"=====mw小帮手=====\n".toPlainText()
                     +"player: $name\n".toPlainText()
-                    +"coins: ${playerdata.coins}\n".toPlainText()
-                    +"kills: ${playerdata.kills} | deaths: ${playerdata.deaths}\n".toPlainText()
-                    +"Final Kills: ${playerdata.finalKills} | Final Deaths: ${playerdata.finalDeaths}\n".toPlainText()
-                    +"K/D Ratio: ${"%.2f".format(playerdata.kdr)} | FK/D Ratio: ${"%.2f".format(playerdata.fkdr)}\n".toPlainText()
-                    +"Wins: ${playerdata.wins} | Losses: ${playerdata.losses}\n".toPlainText()
-                    +"Final Assists: ${playerdata.finalAssists} | FKA/D Ratio: ${"%.2f".format(playerdata.fkadr)}".toPlainText()
+                    +"coins: ${playerData.coins}\n".toPlainText()
+                    +"kills: ${playerData.kills} | deaths: ${playerData.deaths}\n".toPlainText()
+                    +"Final Kills: ${playerData.finalKills} | Final Deaths: ${playerData.finalDeaths}\n".toPlainText()
+                    +"K/D Ratio: ${"%.2f".format(playerData.kdr)} | FK/D Ratio: ${"%.2f".format(playerData.fkdr)}\n".toPlainText()
+                    +"Wins: ${playerData.wins} | Losses: ${playerData.loses}\n".toPlainText()
+                    +"Final Assists: ${playerData.finalAssists} | FKA/D Ratio: ${"%.2f".format(playerData.fkadr)}".toPlainText()
                 }
 
                 subject.sendMessage(msg)

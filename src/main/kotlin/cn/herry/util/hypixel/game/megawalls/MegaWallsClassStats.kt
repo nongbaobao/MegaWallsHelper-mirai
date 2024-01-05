@@ -4,9 +4,9 @@ import cn.hutool.json.JSONObject
 import kotlin.math.max
 
 
-class MegaWallsClassStats {
+class MegaWallsClassStats(playerData: JSONObject?, classnameIn: String) {
 
-    var classname: String? = null
+    private var classname: String? = null
     var chosenSkinClass: String? = null
 
     // in the mwdata
@@ -27,7 +27,7 @@ class MegaWallsClassStats {
     var fkadr = 0f
     var gamesPlayed = 0
     var fkpergame = 0f
-    var classnameFinalAssistsStandard = 0
+    private var classnameFinalAssistsStandard = 0
     var classpoints = 0
 
     // in the mwdata -> classes -> classname
@@ -41,67 +41,58 @@ class MegaWallsClassStats {
     var prestige = 0
     var enderChestRows = 3
 
-    constructor(playerData: JSONObject?, classnameIn: String) {
+    init {
         if (playerData == null) {
-            return
+            throw NullPointerException("playerData is null")
         }
-
         val megawallsObj = playerData.getJSONObject("player")
             .getJSONObject("stats")
             .getJSONObject("Walls3")
-
         classname = classnameIn.lowercase()
+
         chosenSkinClass = megawallsObj.getStr("chosen_skin_$classnameIn")
+        coins = megawallsObj.getInt("coins")?: 0
 
-        coins = megawallsObj.getInt("coins")
-
-        classnameKills = megawallsObj.getInt("${classname}_kills")
-        classnameFinalAssists = megawallsObj.getInt("${classname}_final_assists")
-        classnameDeaths = megawallsObj.getInt("${classname}_deaths")
-        classnameWins = megawallsObj.getInt("${classname}_wins")
-        classnameLosses = megawallsObj.getInt("${classname}_losses")
-        classnameFinalKills = megawallsObj.getInt("${classname}_final_kills")
-        classnameFinalDeaths = megawallsObj.getInt("${classname}_final_deaths")
-        classnameTimePlayed = megawallsObj.getInt("${classname}_time_played")
-
+        classnameKills = megawallsObj.getInt("${classname}_kills")?: 0
+        classnameFinalAssists = megawallsObj.getInt("${classname}_final_assists")?: 0
+        classnameDeaths = megawallsObj.getInt("${classname}_deaths")?: 0
+        classnameWins = megawallsObj.getInt("${classname}_wins")?: 0
+        classnameLosses = megawallsObj.getInt("${classname}_losses")?: 0
+        classnameFinalKills = megawallsObj.getInt("${classname}_final_kills")?: 0
+        classnameFinalDeaths = megawallsObj.getInt("${classname}_final_deaths")?: 0
+        classnameTimePlayed = megawallsObj.getInt("${classname}_time_played")?: 0
         kdr = if (classnameDeaths != 0) {
             classnameKills.toFloat() / classnameDeaths.toFloat()
         } else {
             classnameKills.toFloat()
         }
-
         fkdr = if (classnameFinalDeaths != 0) {
             classnameFinalKills.toFloat() / classnameFinalDeaths.toFloat()
         } else {
             classnameFinalKills.toFloat()
         }
-
         wlr = if (classnameLosses != 0) {
             classnameWins.toFloat() / classnameLosses.toFloat()
         } else {
             classnameWins.toFloat()
         }
-
         fkadr = if (classnameFinalDeaths != 0) {
             (classnameFinalKills + classnameFinalAssists).toFloat() / classnameFinalDeaths.toFloat()
         } else {
             (classnameFinalKills + classnameFinalAssists).toFloat()
         }
-
-        val classname_final_kills_standard = megawallsObj.getInt("${classname}_final_kills_standard")
+        val classnameFinalKillsStandard = megawallsObj.getInt("${classname}_final_kills_standard")
         classnameFinalAssistsStandard = megawallsObj.getInt("${classname}_final_assists_standard")
-        val classname_wins_standard = megawallsObj.getInt("${classname}_wins_standard")
-        classpoints = classname_final_kills_standard + classnameFinalAssistsStandard + classname_wins_standard * 10
-
+        val classnameWinsStandard = megawallsObj.getInt("${classname}_wins_standard")
+        classpoints = classnameFinalKillsStandard + classnameFinalAssistsStandard + classnameWinsStandard * 10
         gamesPlayed = classnameWins + classnameLosses
         fkpergame = if (gamesPlayed != 0) {
             classnameFinalKills.toFloat() / gamesPlayed.toFloat()
         } else {
             classnameFinalKills.toFloat()
         }
-
-        val classesData = megawallsObj.getJSONObject("classes") ?: return
-        val classObj = classesData.getJSONObject(classname) ?: return
+        val classesData = megawallsObj.getJSONObject("classes") ?: throw NullPointerException("playerData is null")
+        val classObj = classesData.getJSONObject(classname) ?: throw NullPointerException("playerData is null")
         unlocked = classObj.getBool("unlocked")?: false
         skillLevelA = max(classObj.getInt("skill_level_a")?: 0, 1)
         skillLevelB = max(classObj.getInt("skill_level_b")?: 0, 1)
@@ -110,7 +101,6 @@ class MegaWallsClassStats {
         skillLevelG = max(classObj.getInt("skill_level_g")?: 0, 1)
         prestige = classObj.getInt("prestige")?: 0
         enderChestRows = max(classObj.getInt("enderchest_rows")?: 1, 3)
-
     }
 
 }

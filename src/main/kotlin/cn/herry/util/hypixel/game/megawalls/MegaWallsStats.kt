@@ -1,16 +1,13 @@
 package cn.herry.util.hypixel.game.megawalls
 
 import cn.hutool.json.JSONObject
-import kotlinx.serialization.Serializable
 
-
-@Serializable
-class MegaWallsStats {
+class MegaWallsStats(playerData: JSONObject) {
 
     var classpointsMap = LinkedHashMap<String, Array<Int>>()
     var coins = 0
     var wins = 0
-    var losses = 0
+    var loses = 0
     var kills = 0
     var deaths = 0
     var finalKills = 0
@@ -22,19 +19,19 @@ class MegaWallsStats {
     var fkadr = 0f
     var totalClasspoints = 0
 
-    constructor(playerData: JSONObject) {
+    init {
         val megawallsObj = playerData.getJSONObject("player")
             .getJSONObject("stats")
             .getJSONObject("Walls3")
 
-        coins = megawallsObj.getInt("coins")
-        wins = megawallsObj.getInt("wins")
-        losses = megawallsObj.getInt("losses")
-        kills = megawallsObj.getInt("kills")
-        deaths = megawallsObj.getInt("deaths")
-        finalKills = megawallsObj.getInt("final_kills")
-        finalAssists = megawallsObj.getInt("final_assists")
-        finalDeaths = megawallsObj.getInt("final_deaths")
+        coins = megawallsObj.getInt("coins")?: 0
+        wins = megawallsObj.getInt("wins")?: 0
+        loses = megawallsObj.getInt("losses")?: 0
+        kills = megawallsObj.getInt("kills")?: 0
+        deaths = megawallsObj.getInt("deaths")?: 0
+        finalKills = megawallsObj.getInt("final_kills")?: 0
+        finalAssists = megawallsObj.getInt("final_assists")?: 0
+        finalDeaths = megawallsObj.getInt("final_deaths")?: 0
 
         kdr = if (deaths != 0) {
             kills.toFloat() / deaths.toFloat()
@@ -48,8 +45,8 @@ class MegaWallsStats {
             finalKills.toFloat()
         }
 
-        wlr = if (losses != 0) {
-            wins.toFloat() / losses.toFloat()
+        wlr = if (loses != 0) {
+            wins.toFloat() / loses.toFloat()
         } else {
             wins.toFloat()
         }
