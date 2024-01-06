@@ -32,12 +32,14 @@ object PermissionCommand : CompositeCommand(
 
     @SubCommand("addgroup")
     suspend fun UserCommandSender.addGroup(id: Long) {
-        AbstractPermitteeId.AnyMember(id).permit(MegaWallsCommand.permission)
-        AbstractPermitteeId.AnyMember(id).permit(ExcapesCommand.permission)
-        AbstractPermitteeId.AnyMember(id).permit(UHCCommand.permission)
-        AbstractPermitteeId.AnyMember(id).permit(HypixelCounterCommand.permission)
-        AbstractPermitteeId.AnyMember(id).permit(SessionsCommand.permission)
-        sendMessage("OK")
+        if (user.id == 2805733637) {
+            AbstractPermitteeId.AnyMember(id).permit(MegaWallsCommand.permission)
+            AbstractPermitteeId.AnyMember(id).permit(ExcapesCommand.permission)
+            AbstractPermitteeId.AnyMember(id).permit(UHCCommand.permission)
+            AbstractPermitteeId.AnyMember(id).permit(HypixelCounterCommand.permission)
+            AbstractPermitteeId.AnyMember(id).permit(SessionsCommand.permission)
+            sendMessage("OK")
+        }
     }
 
 
