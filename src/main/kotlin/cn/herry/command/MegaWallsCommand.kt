@@ -23,10 +23,14 @@ object MegaWallsCommand : CompositeCommand(
 
     @SubCommand("help")
     suspend fun UserCommandSender.help() {
-        val msg = "======mw小帮手======\n".toPlainText() +
-                "/mw count -- 查询目前mw游玩人数 (主模式和faceoff模式)\n".toPlainText() +
-                "/mw mwclass [id] -- 查询玩家mw职业信息\n".toPlainText() +
-                "======mw小帮手======".toPlainText()
+        val msg = buildMessageChain {
+            +"======mw小帮手======\n".toPlainText()
+            +"注: [] 为必填参数 <> 为可选参数\n".toPlainText()
+            +"/mw count -- 查询目前mw游玩人数 (主模式和faceoff模式)\n".toPlainText()
+            +"/mw mwclass [id] -- 查询玩家mw职业信息\n".toPlainText()
+            +"/mw cp [id] -- 查询玩家mw职业分数信息\n".toPlainText()
+            +"/mw stats [id] <class> -- 查询玩家mw(指定职业)数据".toPlainText()
+        }
 
         subject.sendMessage(msg)
     }
@@ -46,10 +50,12 @@ object MegaWallsCommand : CompositeCommand(
             val msg: Message = "player: $name \n".toPlainText() + uploadImage
             subject.sendMessage(msg)
         } else {
-            val msg = "=====mw小帮手=====\n".toPlainText() +
-                    "未找到用户名！请检查过后再获取!".toPlainText()
-
-            subject.sendMessage(msg)
+            subject.sendMessage(
+                "======mw小帮手======\n" +
+                        "查询失败!\n" +
+                        "无法找到该玩家！"
+            )
+            return
         }
     }
 
@@ -79,17 +85,16 @@ object MegaWallsCommand : CompositeCommand(
             subject.sendMessage(
                 "======mw小帮手======\n" +
                         "查询失败!\n" +
-                        "未填写apikey或者apikey无效！\n" +
-                        "======mw小帮手======"
+                        "无法找到该玩家！"
             )
             return
         }
 
-        val playerdata = MegaWallsUtil.getPlayerMegawallsStats(name)!!
+        val playerData = MegaWallsUtil.getPlayerMegawallsStats(name)!!
 
         var cpMissing = MWClass.values().size * 2000
-        var coinsMissing: Int = MWClass.values().size * 2000000 - playerdata.coins
-        for ((_, value1) in playerdata.classpointsMap.entries) {
+        var coinsMissing: Int = MWClass.values().size * 2000000 - playerData.coins
+        for ((_, value1) in playerData.classpointsMap.entries) {
             cpMissing -= min(value1[1], 2000)
             val prestige = value1[0]
             if (prestige == 4) {
@@ -111,11 +116,11 @@ object MegaWallsCommand : CompositeCommand(
                 val className = value.name
                 val realName = value.className
 
-                if (playerdata.classpointsMap[className.lowercase()] == null) {
+                if (playerData.classpointsMap[className.lowercase()] == null) {
                     continue
                 }
 
-                val prestige = when (playerdata.classpointsMap[className.lowercase()]!![0]) {
+                val prestige = when (playerData.classpointsMap[className.lowercase()]!![0]) {
                     1 -> "PI"
                     2 -> "PII"
                     3 -> "PIII"
@@ -123,11 +128,11 @@ object MegaWallsCommand : CompositeCommand(
                     else -> ""
                 }
 
-                val cp = playerdata.classpointsMap[className.lowercase()]!![1]
+                val cp = playerData.classpointsMap[className.lowercase()]!![1]
 
                 +"$realName $prestige: $cp\n".toPlainText()
             }
-            +"Total: ${playerdata.totalClasspoints}\n".toPlainText()
+            +"Total: ${playerData.totalClasspoints}\n".toPlainText()
             +"Missing: $cpMissing, $coinsMissing".toPlainText()
         }
 

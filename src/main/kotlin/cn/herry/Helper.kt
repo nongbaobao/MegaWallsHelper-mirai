@@ -23,7 +23,6 @@ object Helper : KotlinPlugin(
         Config.reload()
         PermissionCommand.register()
         MegaWallsCommand.register()
-        ExcapesCommand.register()
         UHCCommand.register()
         HypixelCounterCommand.register()
     }
