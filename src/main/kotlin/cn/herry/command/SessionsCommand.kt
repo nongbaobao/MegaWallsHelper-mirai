@@ -20,6 +20,7 @@ object SessionsCommand : CompositeCommand (
     "sessions"
 ){
 
+    @SubCommand("reset")
     suspend fun UserCommandSender.reset(player: String) {
         if (!MinecraftUtil.hasUser(name)) {
             subject.sendMessage(

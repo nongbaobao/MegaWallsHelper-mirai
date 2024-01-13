@@ -7,7 +7,7 @@ plugins {
 }
 
 group = "cn.herry"
-version = "0.4.6"
+version = "0.4.8"
 
 repositories {
     maven("https://maven.aliyun.com/repository/public")

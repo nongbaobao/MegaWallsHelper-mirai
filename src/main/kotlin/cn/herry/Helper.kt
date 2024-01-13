@@ -25,6 +25,7 @@ object Helper : KotlinPlugin(
         MegaWallsCommand.register()
         UHCCommand.register()
         HypixelCounterCommand.register()
+        SessionsCommand.register()
     }
 
     override fun onDisable() {
