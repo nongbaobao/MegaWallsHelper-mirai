@@ -1,8 +1,10 @@
 package cn.herry.config.megawalls
 
+import cn.herry.util.hypixel.game.megawalls.MegaWallsUtil
 import kotlinx.serialization.Serializable
 import net.mamoe.mirai.console.data.AutoSavePluginData
 import net.mamoe.mirai.console.data.value
+import java.time.Instant
 import java.time.LocalDateTime
 import java.time.ZoneOffset
 
@@ -12,6 +14,10 @@ object PlayerData : AutoSavePluginData("playerData") {
 
 fun CustomData.updateData(user: Long) {
     PlayerData.data[user] = this
+}
+
+fun Long.toDataTime(): LocalDateTime {
+    return LocalDateTime.ofInstant(Instant.ofEpochSecond(this), ZoneOffset.UTC)
 }
 
 @Serializable
@@ -27,7 +33,7 @@ data class CustomData(
     var finalDeaths: Int = 0,
 ) {
 
-    fun fdr(): Float {
+    fun kdr(): Float {
         return if (deaths != 0) {
             kills.toFloat() / deaths.toFloat()
         } else {
@@ -59,14 +65,16 @@ data class CustomData(
         }
     }
 
-    fun resetAll() {
-        this.wins = 0
-        this.loses = 0
-        this.kills = 0
-        this.deaths = 0
-        this.finalKills = 0
-        this.finalAssists = 0
-        this.finalDeaths = 0
-        time = LocalDateTime.now().toEpochSecond(ZoneOffset.UTC)
+    fun reset() {
+        val timestamp = LocalDateTime.now().toInstant(ZoneOffset.UTC).epochSecond
+        val playerData = MegaWallsUtil.getPlayerMegawallsStats(name)!!
+        time = timestamp
+        wins = playerData.wins
+        loses = playerData.loses
+        kills = playerData.kills
+        deaths = playerData.deaths
+        finalKills = playerData.finalKills
+        finalAssists = playerData.finalAssists
+        finalDeaths = playerData.finalDeaths
     }
 }

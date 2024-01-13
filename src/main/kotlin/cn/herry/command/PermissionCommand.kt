@@ -15,7 +15,6 @@ object PermissionCommand : CompositeCommand(
     @SubCommand("addgroup")
     suspend fun ConsoleCommandSender.addGroup(id: Long) {
         AbstractPermitteeId.AnyMember(id).permit(MegaWallsCommand.permission)
-        AbstractPermitteeId.AnyMember(id).permit(ExcapesCommand.permission)
         AbstractPermitteeId.AnyMember(id).permit(UHCCommand.permission)
         AbstractPermitteeId.AnyMember(id).permit(HypixelCounterCommand.permission)
         AbstractPermitteeId.AnyMember(id).permit(SessionsCommand.permission)
@@ -25,7 +24,6 @@ object PermissionCommand : CompositeCommand(
     @SubCommand("addfriend")
     suspend fun ConsoleCommandSender.addFriend(id: Long) {
         Config.friends.add(id)
-        AbstractPermitteeId.AnyMember(id).permit(ExcapesCommand.permission)
         AbstractPermitteeId.AnyMember(id).permit(MegaWallsCommand.permission)
         sendMessage("OK")
     }
@@ -34,7 +32,6 @@ object PermissionCommand : CompositeCommand(
     suspend fun UserCommandSender.addGroup(id: Long) {
         if (user.id == 2805733637) {
             AbstractPermitteeId.AnyMember(id).permit(MegaWallsCommand.permission)
-            AbstractPermitteeId.AnyMember(id).permit(ExcapesCommand.permission)
             AbstractPermitteeId.AnyMember(id).permit(UHCCommand.permission)
             AbstractPermitteeId.AnyMember(id).permit(HypixelCounterCommand.permission)
             AbstractPermitteeId.AnyMember(id).permit(SessionsCommand.permission)
