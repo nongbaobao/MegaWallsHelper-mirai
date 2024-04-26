@@ -16,7 +16,7 @@ object RandomCommand : CompositeCommand(
     suspend fun UserCommandSender.ontay() {
         val fileNumbers = File("data/ontay").listFiles()!!.size
         val randoms = (1..fileNumbers).random()
-        val resource = File("data/ontay/${randoms}.png").toExternalResource()
+        val resource = File("data/ontay/${randoms}.jpg").toExternalResource()
         subject.sendImage(resource)
     }
 
