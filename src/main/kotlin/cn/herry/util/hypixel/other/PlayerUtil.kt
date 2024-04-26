@@ -6,6 +6,4 @@ import cn.herry.util.other.MinecraftUtil
 object PlayerUtil {
 
     val API_KEY = Config.apiKey
-
-
 }
