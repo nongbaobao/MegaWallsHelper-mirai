@@ -17,6 +17,7 @@ object PermissionCommand : CompositeCommand(
         AbstractPermitteeId.AnyMember(id).permit(MegaWallsCommand.permission)
         AbstractPermitteeId.AnyMember(id).permit(UHCCommand.permission)
         AbstractPermitteeId.AnyMember(id).permit(HypixelCounterCommand.permission)
+        AbstractPermitteeId.AnyMember(id).permit(RandomCommand.permission)
         sendMessage("OK")
     }
 
@@ -33,6 +34,7 @@ object PermissionCommand : CompositeCommand(
             AbstractPermitteeId.AnyMember(id).permit(MegaWallsCommand.permission)
             AbstractPermitteeId.AnyMember(id).permit(UHCCommand.permission)
             AbstractPermitteeId.AnyMember(id).permit(HypixelCounterCommand.permission)
+            AbstractPermitteeId.AnyMember(id).permit(RandomCommand.permission)
             sendMessage("OK")
         }
     }
