@@ -12,16 +12,16 @@ object RandomCommand : CompositeCommand(
     "random"
 ) {
 
-    @SubCommand("yeti")
-    suspend fun UserCommandSender.yeti() {
+    @SubCommand("ontay")
+    suspend fun UserCommandSender.ontay() {
         val fileNumbers = File("data/ontay").listFiles()!!.size
         val randoms = (1..fileNumbers).random()
         val resource = File("data/ontay/${randoms}.png").toExternalResource()
         subject.sendImage(resource)
     }
 
-    @SubCommand("ontay")
-    suspend fun UserCommandSender.ontay() {
+    @SubCommand("yeti")
+    suspend fun UserCommandSender.yeti() {
         val fileNumbers = File("data/yeti").listFiles()!!.size
         val randoms = (1..fileNumbers).random()
         val resource = File("data/yeti/${randoms}.png").toExternalResource()
