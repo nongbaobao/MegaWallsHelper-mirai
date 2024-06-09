@@ -28,7 +28,7 @@ object MegaWallsCommand : CompositeCommand(
             +"注: [] 为必填参数 <> 为可选参数\n".toPlainText()
             +"/mw count -- 查询目前mw游玩人数 (主模式和faceoff模式)\n".toPlainText()
             +"/mw mwclass [id] -- 查询玩家mw职业信息\n".toPlainText()
-            +"/mw cp [id] -- 查询玩家mw职业分数信息\n".toPlainText()
+            +"/mw cp [id] [old/new] -- 查询玩家mw职业分数信息\n".toPlainText()
             +"/mw stats [id] <class> -- 查询玩家mw(指定职业)数据".toPlainText()
         }
 
@@ -80,7 +80,7 @@ object MegaWallsCommand : CompositeCommand(
     }
 
     @SubCommand("cp")
-    suspend fun UserCommandSender.cp(name: String) {
+    suspend fun UserCommandSender.cp(name: String, old: Boolean = false) {
         if (!MinecraftUtil.hasUser(name)) {
             subject.sendMessage(
                 "======mw小帮手======\n" +
@@ -90,7 +90,7 @@ object MegaWallsCommand : CompositeCommand(
             return
         }
 
-        val playerData = MegaWallsUtil.getPlayerMegawallsStats(name)!!
+        val playerData = MegaWallsUtil.getPlayerMegawallsStats(name, old)!!
 
         var cpMissing = MWClass.values().size * 2000
         var coinsMissing: Int = MWClass.values().size * 2000000 - playerData.coins
@@ -121,10 +121,11 @@ object MegaWallsCommand : CompositeCommand(
                 }
 
                 val prestige = when (playerData.classpointsMap[className.lowercase()]!![0]) {
-                    1 -> "PI"
-                    2 -> "PII"
-                    3 -> "PIII"
-                    4 -> "PIV"
+                    1 -> "[PI]"
+                    2 -> "[PII]"
+                    3 -> "[PIII]"
+                    4 -> "[PIV]"
+                    5 -> "[PV]"
                     else -> ""
                 }
 
@@ -140,7 +141,7 @@ object MegaWallsCommand : CompositeCommand(
     }
 
     @SubCommand("stats")
-    suspend fun UserCommandSender.stats(name: String, classs: String = "all") {
+    suspend fun UserCommandSender.stats(name: String, classs: String = "all", old: Boolean = false) {
         if (!MinecraftUtil.hasUser(name)) {
             subject.sendMessage(
                 "======mw小帮手======\n" +
@@ -181,7 +182,7 @@ object MegaWallsCommand : CompositeCommand(
                 subject.sendMessage(msg)
             }
         } else {
-            val playerData = MegaWallsUtil.getPlayerMegawallsStats(name)
+            val playerData = MegaWallsUtil.getPlayerMegawallsStats(name, old)
             if (playerData != null) {
                 val msg = buildMessageChain {
                     +"=====mw小帮手=====\n".toPlainText()

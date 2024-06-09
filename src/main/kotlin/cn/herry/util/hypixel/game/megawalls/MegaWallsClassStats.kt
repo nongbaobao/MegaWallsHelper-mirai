@@ -27,7 +27,6 @@ class MegaWallsClassStats(playerData: JSONObject?, classnameIn: String) {
     var fkadr = 0f
     var gamesPlayed = 0
     var fkpergame = 0f
-    private var classnameFinalAssistsStandard = 0
     var classpoints = 0
 
     // in the mwdata -> classes -> classname
@@ -81,10 +80,7 @@ class MegaWallsClassStats(playerData: JSONObject?, classnameIn: String) {
         } else {
             (classnameFinalKills + classnameFinalAssists).toFloat()
         }
-        val classnameFinalKillsStandard = megawallsObj.getInt("${classname}_final_kills_standard")
-        classnameFinalAssistsStandard = megawallsObj.getInt("${classname}_final_assists_standard")
-        val classnameWinsStandard = megawallsObj.getInt("${classname}_wins_standard")
-        classpoints = classnameFinalKillsStandard + classnameFinalAssistsStandard + classnameWinsStandard * 10
+        classpoints = megawallsObj.getInt("${classname}_class_points")
         gamesPlayed = classnameWins + classnameLosses
         fkpergame = if (gamesPlayed != 0) {
             classnameFinalKills.toFloat() / gamesPlayed.toFloat()

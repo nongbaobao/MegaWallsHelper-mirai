@@ -21,17 +21,21 @@ object MegaWallsUtil {
         }
     }
 
-    fun getPlayerMegawallsStats(name: String): MegaWallsStats? {
-        val mainObj = JSONUtil.parseObj(WebUtil.getJson("https://api.hypixel.net/player?key=$publicApi&uuid=${MinecraftUtil.getUUID(name)}"))
+    fun getPlayerMegawallsStats(name: String, old: Boolean): MegaWallsStats? {
+        val mainObj = JSONUtil.parseObj(WebUtil.getJson("https://api.hypixel.net/v2/player?key=$publicApi&uuid=${MinecraftUtil.getUUID(name)}"))
         if (mainObj.getBool("success")) {
-            return MegaWallsStats(mainObj)
+            return if (old) {
+                MegaWallsStats(mainObj, false)
+            } else {
+                MegaWallsStats(mainObj, true)
+            }
         }
 
         return null
     }
 
     fun getPlayerMegawallsClassStats(name: String, classss: String): MegaWallsClassStats? {
-        val mainObj = JSONUtil.parseObj(WebUtil.getJson("https://api.hypixel.net/player?key=$publicApi&uuid=${MinecraftUtil.getUUID(name)}"))
+        val mainObj = JSONUtil.parseObj(WebUtil.getJson("https://api.hypixel.net/v2/player?key=$publicApi&uuid=${MinecraftUtil.getUUID(name)}"))
         if (mainObj.getBool("success")) {
             return MegaWallsClassStats(mainObj, classss)
         }

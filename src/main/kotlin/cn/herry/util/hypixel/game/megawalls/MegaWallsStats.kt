@@ -2,7 +2,7 @@ package cn.herry.util.hypixel.game.megawalls
 
 import cn.hutool.json.JSONObject
 
-class MegaWallsStats(playerData: JSONObject) {
+class MegaWallsStats(playerData: JSONObject, oldcp: Boolean) {
 
     var classpointsMap = LinkedHashMap<String, Array<Int>>()
     var coins = 0
@@ -71,9 +71,17 @@ class MegaWallsStats(playerData: JSONObject) {
                 } else {
                     0
                 }
-                val classpoints = (megawallsObj.getInt("${className}_final_kills_standard") ?: 0) +
-                        (megawallsObj.getInt("${className}_final_assists_standard") ?: 0) +
-                        (megawallsObj.getInt("${className}_wins_standard") ?: 0) * 10
+
+                var classpoints: Int = 0
+
+                classpoints = if (oldcp) {
+                    (megawallsObj.getInt("${className}_final_kills_standard") ?: 0) +
+                            (megawallsObj.getInt("${className}_final_assists_standard") ?: 0) +
+                            (megawallsObj.getInt("${className}_wins_standard") ?: 0) * 10
+                } else {
+                    megawallsObj.getInt("${className}_class_points")?: 0
+                }
+
 
                 totalClasspoints += classpoints
                 classpointsMap[className] = arrayOf(prestige, classpoints)

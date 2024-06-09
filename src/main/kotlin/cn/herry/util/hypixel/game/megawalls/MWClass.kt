@@ -25,6 +25,9 @@ enum class MWClass(val className: String, val tagLowerCase: String) {
     SPIDER("Spider", "spi"),
     SQUID("Squid", "squ"),
     WEREWOLF("Werewolf", "wer"),
+    ANGEL("Angel", "ang"),
+    SHEEP("Sheep", "shp"),
+    DRAGON("Dragon", "drg"),
     ZOMBIE("Zombie", "zom");
 
     companion object {
